@@ -20,7 +20,7 @@ function computeGroupStandings(
   }
   for (const m of matchs) {
     if (m.statut !== 'TERMINE' || m.scoreDomicile === null || m.scoreExterieur === null) continue;
-    if (!teamIds.has(m.equipeDomicileId)) continue;
+    if (!teamIds.has(m.equipeDomicileId) || !teamIds.has(m.equipeExterieId)) continue;
     rows[m.equipeDomicileId].buts_pour += m.scoreDomicile;
     rows[m.equipeExterieId].buts_pour += m.scoreExterieur;
     rows[m.equipeDomicileId].diff += m.scoreDomicile - m.scoreExterieur;
