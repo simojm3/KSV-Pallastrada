@@ -31,9 +31,11 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
     return () => clearInterval(iv);
   }, [data]);
 
-  const hasLive =
-    data?.groupes?.some((g) => g.matchs?.some((m) => m.statut === 'EN_COURS')) ||
-    data?.matchsFinale?.some((m) => m.statut === 'EN_COURS');
+  const liveMatchs = [
+    ...(data?.groupes?.flatMap((g) => g.matchs?.filter((m) => m.statut === 'EN_COURS') ?? []) ?? []),
+    ...(data?.matchsFinale?.filter((m) => m.statut === 'EN_COURS') ?? []),
+  ];
+  const hasLive = liveMatchs.length > 0;
 
   if (!fallbackData && !data && !error) {
     return (
@@ -60,20 +62,30 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
   return (
     <div className="px-4 py-10 sm:px-8 lg:px-14">
 
-      {/* Live indicator */}
+      {/* ── Live matches at top ── */}
       {hasLive && (
-        <div className="flex items-center gap-3 mb-10">
-          <span
-            className="flex items-center gap-2 font-mono text-[10px] tracking-[0.16em] font-bold px-2.5 py-1.5 text-white animate-live-blink"
-            style={{ background: '#E63946' }}
+        <section className="mb-14">
+          <div className="flex items-center gap-3 mb-6">
+            <span
+              className="flex items-center gap-2 font-mono text-[10px] tracking-[0.16em] font-bold px-2.5 py-1.5 text-white animate-live-blink"
+              style={{ background: '#E63946' }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-live-pulse" />
+              {t('live_badge')}
+            </span>
+            <span className="font-mono text-[11px] tracking-[0.1em]" style={{ color: 'rgba(166,173,185,0.5)' }}>
+              {liveMatchs.length === 1 ? '1 match en cours' : `${liveMatchs.length} matchs en cours`}
+            </span>
+          </div>
+          <div
+            className="flex flex-col gap-2 p-4 sm:p-6"
+            style={{ background: 'rgba(230,57,70,0.05)', border: '1px solid rgba(230,57,70,0.2)', borderTop: '2px solid #E63946' }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-live-pulse" />
-            {t('live_badge')}
-          </span>
-          <span className="font-mono text-[11px] tracking-[0.1em]" style={{ color: 'rgba(166,173,185,0.5)' }}>
-            Match(s) en cours
-          </span>
-        </div>
+            {liveMatchs.map((match) => (
+              <MatchCard key={match.id} match={match} />
+            ))}
+          </div>
+        </section>
       )}
 
       {/* Phase de groupes */}
