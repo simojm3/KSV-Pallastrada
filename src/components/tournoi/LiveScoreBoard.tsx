@@ -58,7 +58,7 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
   }
 
   return (
-    <div style={{ padding: '56px 56px' }}>
+    <div className="px-4 py-10 sm:px-8 lg:px-14">
 
       {/* Live indicator */}
       {hasLive && (
@@ -137,7 +137,7 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
 
 function SectionTitle({ label }: { label: string }) {
   return (
-    <h2 className="font-display text-paper mb-8 flex items-center gap-6" style={{ fontSize: 48 }}>
+    <h2 className="font-display text-paper mb-8 flex items-center gap-6 text-3xl sm:text-5xl">
       {label.toUpperCase()}
       <span className="h-px flex-1" style={{ background: 'rgba(250,246,236,0.1)' }} />
     </h2>

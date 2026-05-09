@@ -65,7 +65,7 @@ export default async function TournoiPage({ params }: { params: { locale: string
   return (
     <div style={{ background: '#06101F', minHeight: '100vh' }}>
       {/* ── Hero header ── */}
-      <div style={{ background: '#0A1829', borderBottom: '1px solid rgba(250,246,236,0.07)', padding: '64px 56px 48px' }}>
+      <div className="px-5 pt-14 pb-10 sm:px-14 sm:pt-16 sm:pb-12" style={{ background: '#0A1829', borderBottom: '1px solid rgba(250,246,236,0.07)' }}>
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
             <div className="flex items-center gap-3 mb-5">

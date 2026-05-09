@@ -70,7 +70,7 @@ export default async function HomePage({
           className="absolute inset-0"
           style={{ background: 'linear-gradient(to right, rgba(8,26,46,0.82) 0%, rgba(8,26,46,0.45) 60%, transparent 100%)' }}
         />
-        <div className="relative z-10 flex flex-col justify-end h-full" style={{ minHeight: '85vh', padding: '0 56px 80px' }}>
+        <div className="relative z-10 flex flex-col justify-end h-full px-5 pb-12 sm:px-14 sm:pb-20" style={{ minHeight: '85vh' }}>
           <p className="font-mono text-[11px] tracking-[0.2em] text-paper opacity-60 mb-6">
             ASSOCIATION SPORTIVE BERNOISE · DEPUIS 1947
           </p>
@@ -108,9 +108,9 @@ export default async function HomePage({
       </div>
 
       {/* ─── 3 Clubs ─── */}
-      <section className="bg-navy-deep" style={{ padding: '80px 56px' }}>
+      <section className="bg-navy-deep px-5 py-14 sm:px-14 sm:py-20">
         <p className="font-mono text-[11px] tracking-[0.2em] text-stone-l mb-4">{t('clubs_title').toUpperCase()}</p>
-        <h2 className="font-display text-paper leading-none mb-14" style={{ fontSize: 72 }}>
+        <h2 className="font-display text-paper leading-none mb-10 sm:mb-14 text-5xl sm:text-7xl">
           {t('clubs_subtitle').toUpperCase()}
         </h2>
 
@@ -136,7 +136,7 @@ export default async function HomePage({
                 <p className="font-mono text-[11px] tracking-[0.16em] mb-2 opacity-60" style={{ color: club.accent }}>
                   {club.sub.toUpperCase()}
                 </p>
-                <h3 className="font-display text-paper leading-none mb-3" style={{ fontSize: 64 }}>
+                <h3 className="font-display text-paper leading-none mb-3 text-5xl sm:text-6xl">
                   {club.label}
                 </h3>
                 <p className="font-sans text-[14px] leading-relaxed text-paper opacity-65 mb-6">
@@ -152,9 +152,9 @@ export default async function HomePage({
       </section>
 
       {/* ─── Tournament banner ─── */}
-      <section className="bg-navy-deep" style={{ padding: '80px 56px' }}>
+      <section className="bg-navy-deep px-5 py-14 sm:px-14 sm:py-20">
         <div
-          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 p-12"
+          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 p-6 sm:p-12"
           style={{ background: '#06101F', border: '1px solid rgba(250,246,236,0.08)' }}
         >
           <div>
@@ -189,7 +189,7 @@ export default async function HomePage({
       </section>
 
       {/* ─── Stats ─── */}
-      <section className="bg-navy" style={{ padding: '80px 56px' }}>
+      <section className="bg-navy px-5 py-14 sm:px-14 sm:py-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
           {[
             { n: '1947', label: 'FONDATION' },
@@ -202,7 +202,7 @@ export default async function HomePage({
               className="flex flex-col items-start py-10 px-8"
               style={{ borderLeft: i === 0 ? 'none' : '1px solid rgba(250,246,236,0.1)' }}
             >
-              <span className="font-display text-sun leading-none mb-2" style={{ fontSize: 72 }}>
+              <span className="font-display text-sun leading-none mb-2 text-5xl sm:text-7xl">
                 {s.n}
               </span>
               <span className="font-mono text-[11px] tracking-[0.2em] text-stone-l">{s.label}</span>
@@ -212,11 +212,11 @@ export default async function HomePage({
       </section>
 
       {/* ─── Join CTA ─── */}
-      <section className="bg-paper" style={{ padding: '80px 56px' }}>
+      <section className="bg-paper px-5 py-14 sm:px-14 sm:py-20">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div>
             <p className="font-mono text-[11px] tracking-[0.2em] text-stone mb-4">{t('join_title').toUpperCase()}</p>
-            <h2 className="font-display text-navy leading-none" style={{ fontSize: 72 }}>
+            <h2 className="font-display text-navy leading-none text-5xl sm:text-7xl">
               {t('join_text').toUpperCase()}
             </h2>
           </div>

@@ -25,9 +25,9 @@ export default function MatchCard({ match }: { match: Match }) {
         borderTop: isLive ? '2px solid #E63946' : undefined,
       }}
     >
-      <div className="px-4 py-3 flex items-center gap-3">
+      <div className="px-3 py-3 flex items-center gap-2 sm:gap-3">
         {/* Time / status */}
-        <div className="w-14 shrink-0 text-center">
+        <div className="w-10 sm:w-14 shrink-0 text-center">
           {isLive ? (
             <div className="flex flex-col items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-live animate-live-pulse" />
@@ -57,12 +57,12 @@ export default function MatchCard({ match }: { match: Match }) {
           </span>
 
           {/* Score */}
-          <div className="shrink-0 min-w-[72px] text-center">
+          <div className="shrink-0 min-w-[56px] sm:min-w-[72px] text-center">
             {hasScore ? (
               <span
                 className="font-display tabular-nums"
                 style={{
-                  fontSize: isLive ? 32 : 26,
+                  fontSize: isLive ? 26 : 22,
                   color: isLive ? '#FAF6EC' : 'rgba(250,246,236,0.65)',
                   letterSpacing: '0.04em',
                 }}
@@ -95,7 +95,7 @@ export default function MatchCard({ match }: { match: Match }) {
         </div>
 
         {/* Badge */}
-        <div className="w-16 shrink-0 text-right">
+        <div className="hidden sm:block w-16 shrink-0 text-right">
           {isDone && (
             <span
               className="font-mono text-[9px] tracking-[0.14em] px-2 py-1"

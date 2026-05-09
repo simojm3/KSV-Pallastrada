@@ -39,7 +39,7 @@ export default async function ContactPage({ params }: { params: { locale: string
   return (
     <>
       {/* ─── Hero ─── */}
-      <section className="bg-paper" style={{ padding: '80px 56px 64px' }}>
+      <section className="bg-paper px-5 pt-14 pb-10 sm:px-14 sm:pt-20 sm:pb-16">
         <p className="font-mono text-[11px] tracking-[0.2em] text-stone mb-6">CONTACT</p>
         <h1
           className="font-display text-navy leading-none"
@@ -51,7 +51,7 @@ export default async function ContactPage({ params }: { params: { locale: string
       </section>
 
       {/* ─── Form + Info ─── */}
-      <section className="bg-paper" style={{ padding: '0 56px 80px' }}>
+      <section className="bg-paper px-5 pb-14 sm:px-14 sm:pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
           {/* Form (2 cols) */}
           <div className="lg:col-span-2">
@@ -100,7 +100,7 @@ export default async function ContactPage({ params }: { params: { locale: string
       </section>
 
       {/* ─── Contacts strip ─── */}
-      <section className="bg-navy" style={{ padding: '64px 56px' }}>
+      <section className="bg-navy px-5 py-14 sm:px-14 sm:py-16">
         <p className="font-mono text-[11px] tracking-[0.2em] text-stone-l mb-10">CONTACTS DIRECTS</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0.5">
           {contacts.map((c) => (

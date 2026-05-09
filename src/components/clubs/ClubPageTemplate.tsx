@@ -42,7 +42,7 @@ export default function ClubPageTemplate({
           className="absolute inset-0"
           style={{ background: 'linear-gradient(to top, rgba(8,26,46,0.95) 0%, rgba(8,26,46,0.4) 60%, transparent 100%)' }}
         />
-        <div className="absolute inset-0 flex flex-col justify-end" style={{ padding: '0 56px 72px' }}>
+        <div className="absolute inset-0 flex flex-col justify-end px-5 pb-14 sm:px-14 sm:pb-18">
           <div className="w-14 h-0.5 mb-6" style={{ background: accent }} />
           <h1
             className="font-display text-paper leading-none mb-4"
@@ -62,7 +62,7 @@ export default function ClubPageTemplate({
       </section>
 
       {/* ─── Stats strip ─── */}
-      <section className="bg-navy" style={{ padding: '0 56px' }}>
+      <section className="bg-navy px-5 sm:px-14">
         <div className="flex flex-wrap">
           {stats.map((s, i) => (
             <div
@@ -70,7 +70,7 @@ export default function ClubPageTemplate({
               className="py-10 pr-12"
               style={{ borderRight: i < stats.length - 1 ? '1px solid rgba(250,246,236,0.1)' : 'none', marginRight: i < stats.length - 1 ? '3rem' : 0 }}
             >
-              <div className="font-display leading-none mb-1" style={{ fontSize: 56, color: '#E8A23C' }}>
+              <div className="font-display leading-none mb-1 text-4xl sm:text-5xl" style={{ color: '#E8A23C' }}>
                 {s.n}
               </div>
               <div className="font-mono text-[11px] tracking-[0.18em] text-stone-l">{s.label}</div>
@@ -80,7 +80,7 @@ export default function ClubPageTemplate({
       </section>
 
       {/* ─── About + Teams ─── */}
-      <section className="bg-paper" style={{ padding: '80px 56px' }}>
+      <section className="bg-paper px-5 py-14 sm:px-14 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Description */}
           <div>
@@ -125,9 +125,9 @@ export default function ClubPageTemplate({
       </section>
 
       {/* ─── Join CTA ─── */}
-      <section className="bg-navy-deep" style={{ padding: '72px 56px' }}>
+      <section className="bg-navy-deep px-5 py-14 sm:px-14 sm:py-20">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          <h2 className="font-display text-paper leading-none" style={{ fontSize: 72 }}>
+          <h2 className="font-display text-paper leading-none text-5xl sm:text-7xl">
             PRÊT À JOUER<br />
             <span style={{ color: accent }}>AVEC NOUS?</span>
           </h2>

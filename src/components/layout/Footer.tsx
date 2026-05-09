@@ -45,11 +45,8 @@ const columns = [
 
 export default function Footer({ locale }: FooterProps) {
   return (
-    <footer className="bg-navy text-paper" style={{ padding: '56px 56px 28px' }}>
-      <div
-        className="grid gap-10 mb-12"
-        style={{ gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr' }}
-      >
+    <footer className="bg-navy text-paper px-5 pt-14 pb-7 sm:px-14 sm:pt-14 sm:pb-7">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10 mb-12">
         {/* Brand col */}
         <div>
           <Link href={`/${locale}`} className="flex items-center gap-2.5">
