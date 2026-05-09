@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import type { Match } from '@/types/tournoi';
 
 const COLORS = ['#E8A23C', '#FAF6EC', '#5A8A2E', '#E63946', '#7FA8C9', '#C24A2C', '#FFD700'];
@@ -57,6 +58,7 @@ interface Props {
 }
 
 export default function WinnerModal({ finalMatch, troisieméMatch }: Props) {
+  const t = useTranslations('tournoi');
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -125,7 +127,7 @@ export default function WinnerModal({ finalMatch, troisieméMatch }: Props) {
             className="absolute top-4 right-4 font-mono text-[11px] px-3 py-1.5 transition-colors hover:opacity-70"
             style={{ color: 'rgba(166,173,185,0.4)', border: '1px solid rgba(250,246,236,0.08)' }}
           >
-            ✕ CLOSE
+            ✕ {t('winner_close')}
           </button>
 
           {/* Trophy */}
@@ -134,7 +136,7 @@ export default function WinnerModal({ finalMatch, troisieméMatch }: Props) {
           </div>
 
           <p className="font-mono text-[10px] tracking-[0.28em] mb-3" style={{ color: '#E8A23C' }}>
-            TOURNOI KSV PALLASTRADA · 7 JUIN 2026
+            {t('winner_event')}
           </p>
 
           <h2
@@ -145,12 +147,14 @@ export default function WinnerModal({ finalMatch, troisieméMatch }: Props) {
           </h2>
 
           <p className="font-mono text-[13px] tracking-[0.14em] mb-8" style={{ color: '#E8A23C' }}>
-            🥇 CHAMPION DU TOURNOI
+            {t('winner_champion_badge')}
           </p>
 
           <p className="font-sans text-[15px] leading-relaxed mb-10" style={{ color: 'rgba(250,246,236,0.6)' }}>
-            Félicitations à <strong style={{ color: '#FAF6EC' }}>{champion.nom}</strong> pour cette
-            magnifique victoire&nbsp;! Une performance remarquable tout au long du tournoi.
+            {t.rich('winner_congrats', {
+              name: champion.nom,
+              strong: (chunks) => <strong style={{ color: '#FAF6EC' }}>{chunks}</strong>,
+            })}
           </p>
 
           {/* Score final */}
@@ -178,7 +182,7 @@ export default function WinnerModal({ finalMatch, troisieméMatch }: Props) {
                   {runnerUp.nom.toUpperCase()}
                 </span>
               </div>
-              <span className="font-mono text-[9px]" style={{ color: 'rgba(166,173,185,0.4)' }}>2ÈME</span>
+              <span className="font-mono text-[9px]" style={{ color: 'rgba(166,173,185,0.4)' }}>{t('winner_rank_2')}</span>
             </div>
 
             {/* 1st */}
@@ -192,7 +196,7 @@ export default function WinnerModal({ finalMatch, troisieméMatch }: Props) {
                   {champion.nom.toUpperCase()}
                 </span>
               </div>
-              <span className="font-mono text-[9px] font-bold" style={{ color: '#E8A23C' }}>1ER</span>
+              <span className="font-mono text-[9px] font-bold" style={{ color: '#E8A23C' }}>{t('winner_rank_1')}</span>
             </div>
 
             {/* 3rd */}
@@ -207,7 +211,7 @@ export default function WinnerModal({ finalMatch, troisieméMatch }: Props) {
                     {thirdPlace.nom.toUpperCase()}
                   </span>
                 </div>
-                <span className="font-mono text-[9px]" style={{ color: 'rgba(166,173,185,0.4)' }}>3ÈME</span>
+                <span className="font-mono text-[9px]" style={{ color: 'rgba(166,173,185,0.4)' }}>{t('winner_rank_3')}</span>
               </div>
             )}
           </div>

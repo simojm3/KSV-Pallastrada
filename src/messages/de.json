@@ -104,7 +104,14 @@
     "countdown_days": "TAGE",
     "countdown_hours": "STUNDEN",
     "countdown_minutes": "MINUTEN",
-    "countdown_seconds": "SEKUNDEN"
+    "countdown_seconds": "SEKUNDEN",
+    "winner_event": "KSV PALLASTRADA · FUSSBALLTURNIER · 7. JUNI 2026",
+    "winner_champion_badge": "🥇 TURNIERSIEGER",
+    "winner_congrats": "Herzlichen Glückwunsch an <strong>{name}</strong> zu diesem grossartigen Sieg! Eine bemerkenswerte Leistung während des gesamten Turniers.",
+    "winner_close": "SCHLIESSEN",
+    "winner_rank_1": "1.",
+    "winner_rank_2": "2.",
+    "winner_rank_3": "3."
   },
   "admin": {
     "login_title": "Admin-Zugang",
