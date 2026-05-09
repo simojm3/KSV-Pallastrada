@@ -127,6 +127,9 @@ export default function MatchsManager() {
         />
       )}
 
+      {/* Group stage generator */}
+      <GroupStageGenerator matchs={matchs} onGenerated={load} />
+
       {/* Knockout generator */}
       <KnockoutGenerator matchs={matchs} onGenerated={load} />
 
@@ -205,6 +208,66 @@ export default function MatchsManager() {
           onClose={() => setEditMatch(null)}
         />
       )}
+    </div>
+  );
+}
+
+function GroupStageGenerator({ matchs, onGenerated }: {
+  matchs: Match[];
+  onGenerated: () => Promise<void>;
+}) {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState('');
+  const [error, setError] = useState('');
+
+  const hasGroupMatchs = matchs.some((m) => m.phase === 'GROUPES');
+  if (hasGroupMatchs) return null;
+
+  async function generate() {
+    setLoading(true);
+    setResult('');
+    setError('');
+    try {
+      const res = await fetch('/api/tournoi/generate-groups', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? 'Error');
+      } else {
+        setResult(`${data.created} matches generated.`);
+        await onGenerated();
+      }
+    } catch {
+      setError('Network error.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div
+      className="mb-8 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+      style={{ background: 'rgba(127,168,201,0.06)', border: '1px solid rgba(127,168,201,0.2)', borderTop: '3px solid #7FA8C9' }}
+    >
+      <div>
+        <div className="flex items-center gap-2 mb-1">
+          <span className="font-mono text-[10px] tracking-[0.2em] font-bold" style={{ color: '#7FA8C9' }}>
+            ▶ GENERATE GROUP STAGE MATCHES
+          </span>
+        </div>
+        <p className="font-sans text-[13px]" style={{ color: 'rgba(250,246,236,0.5)' }}>
+          Creates all round-robin matches for each group (each team vs every other).
+        </p>
+        {result && <p className="font-mono text-[11px] mt-2" style={{ color: 'rgba(166,230,100,0.7)' }}>✓ {result}</p>}
+        {error && <p className="font-mono text-[11px] mt-2" style={{ color: '#C24A2C' }}>{error}</p>}
+      </div>
+      <button
+        onClick={generate}
+        disabled={loading}
+        className="shrink-0 font-mono text-[12px] font-bold tracking-[0.12em] px-5 py-2.5 transition-opacity disabled:opacity-50 hover:opacity-85"
+        style={{ background: '#7FA8C9', color: '#0A0F18' }}
+      >
+        {loading ? 'GENERATING...' : 'GENERATE MATCHES'}
+      </button>
     </div>
   );
 }
