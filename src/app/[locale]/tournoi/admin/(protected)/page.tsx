@@ -2,6 +2,7 @@ import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import LiveToggle from '@/components/admin/LiveToggle';
+import ResetTournamentButton from '@/components/admin/ResetTournamentButton';
 
 export default async function AdminDashboardPage({ params }: { params: { locale: string } }) {
   const { locale } = params;
@@ -87,7 +88,7 @@ export default async function AdminDashboardPage({ params }: { params: { locale:
       )}
 
       {/* Shortcuts */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-0.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-0.5 mb-16">
         {shortcuts.map((s) => (
           <Link
             key={s.href}
@@ -104,6 +105,14 @@ export default async function AdminDashboardPage({ params }: { params: { locale:
             <p className="font-sans text-[13px]" style={{ color: 'rgba(166,173,185,0.45)' }}>{s.desc}</p>
           </Link>
         ))}
+      </div>
+
+      {/* Danger zone */}
+      <div>
+        <p className="font-mono text-[10px] tracking-[0.2em] mb-3" style={{ color: 'rgba(166,173,185,0.25)' }}>
+          DANGER ZONE
+        </p>
+        <ResetTournamentButton locale={locale} />
       </div>
     </div>
   );
