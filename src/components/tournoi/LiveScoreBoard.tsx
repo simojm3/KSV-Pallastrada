@@ -7,6 +7,7 @@ import type { TournoiData } from '@/types/tournoi';
 import GroupTable from './GroupTable';
 import MatchCard from './MatchCard';
 import Bracket from './Bracket';
+import WinnerModal from './WinnerModal';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -35,6 +36,9 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
     const iv = setInterval(() => setSecondsAgo((s) => s + 1), 1000);
     return () => clearInterval(iv);
   }, [data]);
+
+  const finalMatch = data?.matchsFinale?.find((m) => m.phase === 'FINALE' && m.statut === 'TERMINE');
+  const troisieméMatch = data?.matchsFinale?.find((m) => m.phase === 'TROISIEME_PLACE' && m.statut === 'TERMINE');
 
   const liveMatchs = [
     ...(data?.groupes?.flatMap((g) => g.matchs?.filter((m) => m.statut === 'EN_COURS') ?? []) ?? []),
@@ -66,6 +70,9 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
 
   return (
     <div className="px-4 py-10 sm:px-8 lg:px-14">
+      {finalMatch && (
+        <WinnerModal finalMatch={finalMatch} troisieméMatch={troisieméMatch} />
+      )}
 
       {/* ── Live matches at top ── */}
       {hasLive && (
