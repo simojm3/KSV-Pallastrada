@@ -127,6 +127,9 @@ export default function MatchsManager() {
         />
       )}
 
+      {/* Knockout generator */}
+      <KnockoutGenerator matchs={matchs} onGenerated={load} />
+
       {/* Live panel — shown when matches are in progress */}
       {matchs.filter((m) => m.statut === 'EN_COURS').length > 0 && (
         <LivePanel
@@ -202,6 +205,82 @@ export default function MatchsManager() {
           onClose={() => setEditMatch(null)}
         />
       )}
+    </div>
+  );
+}
+
+function KnockoutGenerator({ matchs, onGenerated }: {
+  matchs: Match[];
+  onGenerated: () => Promise<void>;
+}) {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState('');
+  const [error, setError] = useState('');
+
+  const groupMatchs = matchs.filter((m) => m.phase === 'GROUPES');
+  const semis = matchs.filter((m) => m.phase === 'DEMI_FINALE');
+  const finaux = matchs.filter((m) => m.phase === 'FINALE' || m.phase === 'TROISIEME_PLACE');
+
+  const allGroupsDone = groupMatchs.length > 0 && groupMatchs.every((m) => m.statut === 'TERMINE');
+  const allSemisDone = semis.length === 2 && semis.every((m) => m.statut === 'TERMINE');
+
+  const canGenerateSemis = allGroupsDone && semis.length === 0;
+  const canGenerateFinal = allSemisDone && finaux.length === 0;
+
+  if (!canGenerateSemis && !canGenerateFinal) return null;
+
+  const label = canGenerateSemis ? 'GENERATE SEMI-FINALS' : 'GENERATE FINAL + 3RD PLACE';
+  const description = canGenerateSemis
+    ? 'All group matches finished. Auto-assign teams from standings.'
+    : 'Both semi-finals finished. Generate the final and 3rd place match.';
+
+  async function generate() {
+    setLoading(true);
+    setResult('');
+    setError('');
+    try {
+      const res = await fetch('/api/tournoi/generate-knockout', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? 'Error');
+      } else {
+        setResult(data.summary ?? 'Matches generated!');
+        await onGenerated();
+      }
+    } catch {
+      setError('Network error.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div
+      className="mb-8 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+      style={{ background: 'rgba(232,162,60,0.06)', border: '1px solid rgba(232,162,60,0.25)', borderTop: '3px solid #E8A23C' }}
+    >
+      <div>
+        <div className="flex items-center gap-2 mb-1">
+          <span className="font-mono text-[10px] tracking-[0.2em] font-bold" style={{ color: '#E8A23C' }}>
+            ▶ NEXT PHASE READY
+          </span>
+        </div>
+        <p className="font-sans text-[13px]" style={{ color: 'rgba(250,246,236,0.6)' }}>{description}</p>
+        {result && (
+          <p className="font-mono text-[11px] mt-2" style={{ color: 'rgba(166,230,100,0.7)' }}>✓ {result}</p>
+        )}
+        {error && (
+          <p className="font-mono text-[11px] mt-2" style={{ color: '#C24A2C' }}>{error}</p>
+        )}
+      </div>
+      <button
+        onClick={generate}
+        disabled={loading}
+        className="shrink-0 font-mono text-[12px] font-bold tracking-[0.12em] px-5 py-2.5 transition-opacity disabled:opacity-50 hover:opacity-85"
+        style={{ background: '#E8A23C', color: '#0A0F18' }}
+      >
+        {loading ? 'GENERATING...' : label}
+      </button>
     </div>
   );
 }
