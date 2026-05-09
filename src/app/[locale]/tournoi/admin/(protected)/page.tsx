@@ -2,7 +2,7 @@ import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import LiveToggle from '@/components/admin/LiveToggle';
-import ResetTournamentButton from '@/components/admin/ResetTournamentButton';
+import DangerZone from '@/components/admin/DangerZone';
 
 export default async function AdminDashboardPage({ params }: { params: { locale: string } }) {
   const { locale } = params;
@@ -29,6 +29,7 @@ export default async function AdminDashboardPage({ params }: { params: { locale:
     { href: `/${locale}/tournoi/admin/equipes`, label: 'Équipes', desc: 'Ajouter, modifier, assigner aux groupes' },
     { href: `/${locale}/tournoi/admin/groupes`, label: 'Groupes', desc: 'Déplacer les équipes entre les groupes' },
     { href: `/${locale}/tournoi/admin/matchs`, label: 'Matchs', desc: 'Scores, statuts, créer des rencontres' },
+    { href: `/${locale}/tournoi/admin/archives`, label: 'Archives', desc: 'Tournois passés — lecture seule' },
     { href: `/${locale}/tournoi`, label: 'Vue publique ↗', desc: 'Voir la page live scores' },
   ];
 
@@ -112,7 +113,7 @@ export default async function AdminDashboardPage({ params }: { params: { locale:
         <p className="font-mono text-[10px] tracking-[0.2em] mb-3" style={{ color: 'rgba(166,173,185,0.25)' }}>
           DANGER ZONE
         </p>
-        <ResetTournamentButton locale={locale} />
+        <DangerZone locale={locale} />
       </div>
     </div>
   );
