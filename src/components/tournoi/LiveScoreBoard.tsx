@@ -18,7 +18,12 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
     fetcher,
     {
       fallbackData,
-      refreshInterval: 15000,
+      refreshInterval: (latest) => {
+        const live =
+          latest?.groupes?.some((g) => g.matchs?.some((m) => m.statut === 'EN_COURS')) ||
+          latest?.matchsFinale?.some((m) => m.statut === 'EN_COURS');
+        return live ? 3000 : 15000;
+      },
       revalidateOnFocus: true,
       revalidateOnMount: !fallbackData,
     }
