@@ -35,8 +35,8 @@ export default async function TournoiWaiting({ locale }: { locale: string }) {
 
       {/* Content */}
       <div
-        className="relative z-10 flex flex-col items-center justify-center text-center"
-        style={{ minHeight: '100vh', padding: '80px 32px' }}
+        className="relative z-10 flex flex-col items-center justify-center text-center w-full px-4 sm:px-8 py-20"
+        style={{ minHeight: '100vh' }}
       >
         <p className="font-mono text-[11px] tracking-[0.28em] mb-8" style={{ color: 'rgba(232,162,60,0.8)' }}>
           {t('waiting_label')}
