@@ -24,10 +24,12 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
         const live =
           latest?.groupes?.some((g) => g.matchs?.some((m) => m.statut === 'EN_COURS')) ||
           latest?.matchsFinale?.some((m) => m.statut === 'EN_COURS');
-        return live ? 3000 : 15000;
+        return live ? 3000 : 10000;
       },
+      revalidateOnMount: true,
       revalidateOnFocus: true,
-      revalidateOnMount: !fallbackData,
+      revalidateOnReconnect: true,
+      dedupingInterval: 2000,
     }
   );
 
