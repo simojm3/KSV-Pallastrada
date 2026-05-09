@@ -1,0 +1,145 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import useSWR from 'swr';
+import { useTranslations } from 'next-intl';
+import type { TournoiData } from '@/types/tournoi';
+import GroupTable from './GroupTable';
+import MatchCard from './MatchCard';
+import Bracket from './Bracket';
+
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
+
+export default function LiveScoreBoard({ fallbackData }: { fallbackData?: TournoiData }) {
+  const t = useTranslations('tournoi');
+
+  const { data, error, isValidating } = useSWR<TournoiData>(
+    '/api/tournoi/scores',
+    fetcher,
+    {
+      fallbackData,
+      refreshInterval: 15000,
+      revalidateOnFocus: true,
+      revalidateOnMount: !fallbackData,
+    }
+  );
+
+  const [secondsAgo, setSecondsAgo] = useState(0);
+  useEffect(() => {
+    setSecondsAgo(0);
+    const iv = setInterval(() => setSecondsAgo((s) => s + 1), 1000);
+    return () => clearInterval(iv);
+  }, [data]);
+
+  const hasLive =
+    data?.groupes?.some((g) => g.matchs?.some((m) => m.statut === 'EN_COURS')) ||
+    data?.matchsFinale?.some((m) => m.statut === 'EN_COURS');
+
+  if (!fallbackData && !data && !error) {
+    return (
+      <div className="py-32 flex flex-col items-center gap-4" style={{ color: 'rgba(166,173,185,0.4)' }}>
+        <div
+          className="w-8 h-8 border-2 rounded-full animate-spin"
+          style={{ borderColor: 'rgba(250,246,236,0.1)', borderTopColor: '#E8A23C' }}
+        />
+        <p className="font-mono text-[12px] tracking-[0.1em]">{t('loading')}</p>
+      </div>
+    );
+  }
+
+  if (error || !data || !Array.isArray(data.groupes)) {
+    return (
+      <div className="py-32 text-center">
+        <p className="font-mono text-[12px] tracking-[0.1em]" style={{ color: 'rgba(166,173,185,0.4)' }}>
+          {t('error')}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: '56px 56px' }}>
+
+      {/* Live indicator */}
+      {hasLive && (
+        <div className="flex items-center gap-3 mb-10">
+          <span
+            className="flex items-center gap-2 font-mono text-[10px] tracking-[0.16em] font-bold px-2.5 py-1.5 text-white animate-live-blink"
+            style={{ background: '#E63946' }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-live-pulse" />
+            {t('live_badge')}
+          </span>
+          <span className="font-mono text-[11px] tracking-[0.1em]" style={{ color: 'rgba(166,173,185,0.5)' }}>
+            Match(s) en cours
+          </span>
+        </div>
+      )}
+
+      {/* Phase de groupes */}
+      <section className="mb-16">
+        <SectionTitle label={t('group_stage')} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {data.groupes.map((groupe) => (
+            <div key={groupe.id} className="flex flex-col gap-6">
+              <GroupTable groupe={groupe} />
+              {groupe.matchs.length > 0 && (
+                <div>
+                  <p
+                    className="font-mono text-[10px] tracking-[0.2em] mb-3"
+                    style={{ color: 'rgba(166,173,185,0.4)' }}
+                  >
+                    MATCHS — {groupe.nom.toUpperCase()}
+                  </p>
+                  <div className="flex flex-col gap-1.5">
+                    {groupe.matchs.map((match) => (
+                      <MatchCard key={match.id} match={match} />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Phase finale */}
+      {data.matchsFinale.length > 0 && (
+        <section className="mb-16">
+          <SectionTitle label={t('knockout_stage')} />
+          <Bracket matchs={data.matchsFinale} />
+        </section>
+      )}
+
+      {/* Refresh indicator */}
+      <div
+        className="flex items-center justify-between pt-6"
+        style={{ borderTop: '1px solid rgba(250,246,236,0.06)' }}
+      >
+        <p className="font-mono text-[10px] tracking-[0.12em]" style={{ color: 'rgba(166,173,185,0.3)' }}>
+          {t('next_refresh')}
+        </p>
+        <div className="flex items-center gap-2" style={{ color: 'rgba(166,173,185,0.25)' }}>
+          {isValidating && (
+            <div
+              className="w-3 h-3 border rounded-full animate-spin"
+              style={{ borderColor: 'rgba(250,246,236,0.1)', borderTopColor: 'rgba(250,246,236,0.5)' }}
+            />
+          )}
+          <span className="font-mono text-[10px] tracking-[0.1em]">
+            {secondsAgo === 0 ? "À l'instant" : `Il y a ${secondsAgo}s`}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SectionTitle({ label }: { label: string }) {
+  return (
+    <h2 className="font-display text-paper mb-8 flex items-center gap-6" style={{ fontSize: 48 }}>
+      {label.toUpperCase()}
+      <span className="h-px flex-1" style={{ background: 'rgba(250,246,236,0.1)' }} />
+    </h2>
+  );
+}

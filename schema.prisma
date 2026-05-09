@@ -1,0 +1,66 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Equipe {
+  id               String   @id @default(cuid())
+  nom              String
+  logo             String?
+  groupeId         String?
+  groupe           Groupe?  @relation(fields: [groupeId], references: [id])
+  matchsDomicile   Match[]  @relation("Domicile")
+  matchsExterieur  Match[]  @relation("Exterieur")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("equipes")
+}
+
+model Groupe {
+  id        String   @id @default(cuid())
+  nom       String   // "Groupe A" | "Groupe B"
+  equipes   Equipe[]
+  createdAt DateTime @default(now())
+
+  @@map("groupes")
+}
+
+model Match {
+  id               String      @id @default(cuid())
+  equipeDomicile   Equipe      @relation("Domicile", fields: [equipeDomicileId], references: [id])
+  equipeDomicileId String
+  equipeExterieur  Equipe      @relation("Exterieur", fields: [equipeExterieId], references: [id])
+  equipeExterieId  String
+  scoreDomicile    Int?
+  scoreExterieur   Int?
+  statut           MatchStatut @default(A_VENIR)
+  phase            MatchPhase  @default(GROUPES)
+  heure            DateTime?
+  terrain          String?
+  ordre            Int?        // Pour trier l'affichage
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@map("matchs")
+}
+
+enum MatchStatut {
+  A_VENIR
+  EN_COURS
+  TERMINE
+}
+
+enum MatchPhase {
+  GROUPES
+  DEMI_FINALE
+  TROISIEME_PLACE
+  FINALE
+}

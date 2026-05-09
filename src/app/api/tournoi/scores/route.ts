@@ -1,0 +1,59 @@
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { computeStandings } from '@/lib/standings';
+import type { TournoiData, Match } from '@/types/tournoi';
+
+export const revalidate = 0;
+
+export async function GET() {
+  try {
+    const [groupes, allMatchs, matchsFinale, allButs] = await Promise.all([
+      prisma.groupe.findMany({
+        include: { equipes: true },
+        orderBy: { nom: 'asc' },
+      }),
+      prisma.match.findMany({
+        where: { phase: 'GROUPES' },
+        include: { equipeDomicile: true, equipeExterieur: true },
+        orderBy: [{ ordre: 'asc' }, { heure: 'asc' }],
+      }),
+      prisma.match.findMany({
+        where: { phase: { in: ['DEMI_FINALE', 'TROISIEME_PLACE', 'FINALE'] } },
+        include: { equipeDomicile: true, equipeExterieur: true },
+        orderBy: [{ phase: 'asc' }, { ordre: 'asc' }],
+      }),
+      prisma.$queryRaw<{ id: string; matchId: string; equipeId: string; minute: number | null; buteur: string | null }[]>`
+        SELECT id, "matchId", "equipeId", minute, buteur FROM buts ORDER BY minute ASC NULLS LAST, "createdAt" ASC
+      `,
+    ]);
+
+    const butsMap = new Map<string, typeof allButs>();
+    for (const but of allButs) {
+      if (!butsMap.has(but.matchId)) butsMap.set(but.matchId, []);
+      butsMap.get(but.matchId)!.push(but);
+    }
+
+    const withButs = (m: unknown) => ({
+      ...(m as object),
+      buts: butsMap.get((m as { id: string }).id) ?? [],
+    });
+
+    const data: TournoiData = {
+      groupes: groupes.map((g) => {
+        const teamIds = new Set(g.equipes.map((e) => e.id));
+        const groupMatchs = allMatchs.filter((m) => teamIds.has(m.equipeDomicileId)).map(withButs) as unknown as Match[];
+        return {
+          ...g,
+          matchs: groupMatchs,
+          standings: computeStandings(g.equipes, groupMatchs as unknown as Match[]),
+        };
+      }),
+      matchsFinale: matchsFinale.map(withButs) as unknown as Match[],
+      lastUpdated: new Date().toISOString(),
+    };
+
+    return NextResponse.json(data);
+  } catch {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
