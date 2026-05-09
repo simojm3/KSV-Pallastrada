@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")       // Transaction pooler (6543) — utilisé par l'app
-  directUrl = env("DIRECT_URL")         // Session pooler (5432) — utilisé par prisma migrate/push
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Equipe {
