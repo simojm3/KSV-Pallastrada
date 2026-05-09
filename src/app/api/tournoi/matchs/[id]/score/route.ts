@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import { z } from 'zod';
+import { pusher, PUSHER_CHANNEL, PUSHER_EVENT } from '@/lib/pusher';
 
 const scoreSchema = z.object({
   scoreDomicile: z.number().int().min(0).nullable(),
@@ -21,6 +22,9 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       where: { id: params.id },
       data,
       include: { equipeDomicile: true, equipeExterieur: true },
+    });
+    pusher.trigger(PUSHER_CHANNEL, PUSHER_EVENT, { matchId: params.id }).catch((err) => {
+      console.error('[Pusher] trigger failed:', err);
     });
     return NextResponse.json(match);
   } catch {

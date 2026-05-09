@@ -9,13 +9,14 @@ import MatchCard from './MatchCard';
 import Bracket from './Bracket';
 import WinnerModal from './WinnerModal';
 import PodiumSection from './PodiumSection';
+import { getPusherClient, PUSHER_CHANNEL, PUSHER_EVENT } from '@/lib/pusher-client';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function LiveScoreBoard({ fallbackData }: { fallbackData?: TournoiData }) {
   const t = useTranslations('tournoi');
 
-  const { data, error, isValidating } = useSWR<TournoiData>(
+  const { data, error, isValidating, mutate } = useSWR<TournoiData>(
     '/api/tournoi/scores',
     fetcher,
     {
@@ -32,6 +33,14 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
       dedupingInterval: 2000,
     }
   );
+
+  useEffect(() => {
+    const client = getPusherClient();
+    const channel = client.subscribe(PUSHER_CHANNEL);
+    const handler = () => mutate();
+    channel.bind(PUSHER_EVENT, handler);
+    return () => { channel.unbind(PUSHER_EVENT, handler); };
+  }, [mutate]);
 
   const [secondsAgo, setSecondsAgo] = useState(0);
   useEffect(() => {

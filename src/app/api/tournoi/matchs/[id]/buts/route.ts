@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import { z } from 'zod';
+import { pusher, PUSHER_CHANNEL, PUSHER_EVENT } from '@/lib/pusher';
 
 const butSchema = z.object({
   equipeId: z.string(),
@@ -42,6 +43,9 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     `;
 
     console.log('[POST but] inserted id:', id);
+    pusher.trigger(PUSHER_CHANNEL, PUSHER_EVENT, { matchId: params.id }).catch((err) => {
+      console.error('[Pusher] trigger failed:', err);
+    });
     return NextResponse.json({ id, matchId: params.id, equipeId: data.equipeId }, { status: 201 });
   } catch (e) {
     console.error('[POST but]', e);
