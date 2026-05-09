@@ -19,6 +19,9 @@ export default function GroupesManager() {
   const [equipesSansGroupe, setEquipesSansGroupe] = useState<Equipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [moving, setMoving] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [customNom, setCustomNom] = useState('');
+  const [createError, setCreateError] = useState('');
 
   const load = useCallback(async () => {
     const [gRes, eRes] = await Promise.all([
@@ -35,6 +38,37 @@ export default function GroupesManager() {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  async function initGroups() {
+    setCreating(true);
+    setCreateError('');
+    try {
+      await Promise.all([
+        fetch('/api/tournoi/groupes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nom: 'Groupe A' }) }),
+        fetch('/api/tournoi/groupes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nom: 'Groupe B' }) }),
+      ]);
+      await load();
+    } catch { setCreateError('Error creating groups.'); }
+    finally { setCreating(false); }
+  }
+
+  async function createGroupe(e: React.FormEvent) {
+    e.preventDefault();
+    if (!customNom.trim()) return;
+    setCreating(true);
+    setCreateError('');
+    try {
+      const res = await fetch('/api/tournoi/groupes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nom: customNom.trim() }),
+      });
+      if (!res.ok) { setCreateError('Error'); return; }
+      setCustomNom('');
+      await load();
+    } catch { setCreateError('Error'); }
+    finally { setCreating(false); }
+  }
 
   async function moveEquipe(equipeId: string, targetGroupeId: string) {
     setMoving(equipeId);
@@ -56,9 +90,51 @@ export default function GroupesManager() {
       <div className="mb-8">
         <h1 className="font-display text-paper" style={{ fontSize: 40 }}>GROUPS</h1>
         <p className="font-mono text-[11px] mt-1" style={{ color: 'rgba(166,173,185,0.4)' }}>
-          {totalEquipes} teams total
+          {totalEquipes} teams — {groupes.length} group{groupes.length !== 1 ? 's' : ''}
         </p>
       </div>
+
+      {/* No groups yet — init panel */}
+      {groupes.length === 0 && (
+        <div className="mb-8 p-6" style={{ background: 'rgba(232,162,60,0.05)', border: '1px solid rgba(232,162,60,0.2)', borderTop: '2px solid #E8A23C' }}>
+          <p className="font-mono text-[11px] tracking-[0.16em] font-bold mb-1" style={{ color: '#E8A23C' }}>NO GROUPS YET</p>
+          <p className="font-sans text-[13px] mb-5" style={{ color: 'rgba(250,246,236,0.45)' }}>
+            Create the two groups to start assigning teams.
+          </p>
+          <button
+            onClick={initGroups}
+            disabled={creating}
+            className="font-mono text-[12px] font-bold tracking-[0.12em] px-5 py-2.5 transition-opacity disabled:opacity-50 hover:opacity-85"
+            style={{ background: '#E8A23C', color: '#0A0F18' }}
+          >
+            {creating ? 'CREATING...' : '+ CREATE GROUP A & GROUP B'}
+          </button>
+          {createError && <p className="font-sans text-[12px] mt-3" style={{ color: '#C24A2C' }}>{createError}</p>}
+        </div>
+      )}
+
+      {/* Add custom group */}
+      {groupes.length > 0 && (
+        <form onSubmit={createGroupe} className="flex items-center gap-3 mb-6">
+          <input
+            type="text"
+            value={customNom}
+            onChange={(e) => setCustomNom(e.target.value)}
+            placeholder="Group name..."
+            className="font-sans text-[13px] px-4 py-2"
+            style={{ background: '#06101F', border: '1px solid rgba(250,246,236,0.1)', color: '#FAF6EC', outline: 'none', width: 180 }}
+          />
+          <button
+            type="submit"
+            disabled={creating || !customNom.trim()}
+            className="font-mono text-[11px] font-bold tracking-[0.1em] px-4 py-2 transition-opacity disabled:opacity-40 hover:opacity-85"
+            style={{ background: 'rgba(232,162,60,0.12)', border: '1px solid rgba(232,162,60,0.3)', color: '#E8A23C' }}
+          >
+            + ADD GROUP
+          </button>
+          {createError && <span className="font-sans text-[12px]" style={{ color: '#C24A2C' }}>{createError}</span>}
+        </form>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-0.5 mb-8">
         {groupes.map((groupe) => (
