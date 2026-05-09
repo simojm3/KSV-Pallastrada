@@ -111,7 +111,9 @@
     "winner_close": "CHIUDI",
     "winner_rank_1": "1°",
     "winner_rank_2": "2°",
-    "winner_rank_3": "3°"
+    "winner_rank_3": "3°",
+    "winner_podium_title": "CLASSIFICA FINALE",
+    "winner_final_score": "Risultato finale"
   },
   "admin": {
     "login_title": "Accesso Amministrazione",

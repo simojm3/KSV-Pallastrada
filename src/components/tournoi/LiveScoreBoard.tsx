@@ -8,6 +8,7 @@ import GroupTable from './GroupTable';
 import MatchCard from './MatchCard';
 import Bracket from './Bracket';
 import WinnerModal from './WinnerModal';
+import PodiumSection from './PodiumSection';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -72,6 +73,10 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
     <div className="px-4 py-10 sm:px-8 lg:px-14">
       {finalMatch && (
         <WinnerModal finalMatch={finalMatch} troisieméMatch={troisieméMatch} />
+      )}
+
+      {finalMatch && (
+        <PodiumSection finalMatch={finalMatch} troisièmeMatch={troisieméMatch} />
       )}
 
       {/* ── Live matches at top ── */}

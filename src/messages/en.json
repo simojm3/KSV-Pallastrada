@@ -111,7 +111,9 @@
     "winner_close": "CLOSE",
     "winner_rank_1": "1ST",
     "winner_rank_2": "2ND",
-    "winner_rank_3": "3RD"
+    "winner_rank_3": "3RD",
+    "winner_podium_title": "FINAL STANDINGS",
+    "winner_final_score": "Final score"
   },
   "admin": {
     "login_title": "Admin Access",

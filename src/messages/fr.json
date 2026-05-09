@@ -111,7 +111,9 @@
     "winner_close": "FERMER",
     "winner_rank_1": "1ER",
     "winner_rank_2": "2ÈME",
-    "winner_rank_3": "3ÈME"
+    "winner_rank_3": "3ÈME",
+    "winner_podium_title": "PALMARÈS",
+    "winner_final_score": "Score de la finale"
   },
   "admin": {
     "login_title": "Accès Administration",

@@ -111,7 +111,9 @@
     "winner_close": "SCHLIESSEN",
     "winner_rank_1": "1.",
     "winner_rank_2": "2.",
-    "winner_rank_3": "3."
+    "winner_rank_3": "3.",
+    "winner_podium_title": "ABSCHLUSSRANGLISTE",
+    "winner_final_score": "Endergebnis"
   },
   "admin": {
     "login_title": "Admin-Zugang",
