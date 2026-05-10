@@ -72,7 +72,7 @@ export default async function HomePage({
         />
         <div className="relative z-10 flex flex-col justify-end h-full px-5 pb-12 sm:px-14 sm:pb-20" style={{ minHeight: '85vh' }}>
           <p className="font-mono text-[11px] tracking-[0.2em] text-paper opacity-60 mb-6">
-            ASSOCIATION SPORTIVE BERNOISE · DEPUIS 1947
+            {t('hero_since')}
           </p>
           <h1 className="font-display text-paper leading-none mb-8" style={{ fontSize: 'clamp(64px, 10vw, 160px)', maxWidth: 900 }}>
             {t('hero_title').toUpperCase()},{' '}
@@ -143,7 +143,7 @@ export default async function HomePage({
                   {club.desc}
                 </p>
                 <span className="font-mono text-[11px] tracking-[0.16em] font-bold" style={{ color: club.accent }}>
-                  VOIR LE CLUB →
+                  {t('club_see')} →
                 </span>
               </div>
             </Link>
@@ -192,10 +192,10 @@ export default async function HomePage({
       <section className="bg-navy px-5 py-14 sm:px-14 sm:py-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
           {[
-            { n: '1947', label: 'FONDATION' },
-            { n: '412', label: 'MEMBRES' },
-            { n: '28', label: 'ÉQUIPES' },
-            { n: '3', label: 'DISCIPLINES' },
+            { n: '2019', label: t('stat_fondation') },
+            { n: '97', label: t('stat_members') },
+            { n: '5', label: t('stat_teams') },
+            { n: '3', label: t('stat_disciplines') },
           ].map((s, i) => (
             <div
               key={s.label}
