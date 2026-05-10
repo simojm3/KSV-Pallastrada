@@ -31,15 +31,22 @@ export async function POST(request: NextRequest) {
   const { name, email, subject, message } = parsed.data;
 
   const recipient = process.env.CONTACT_RECIPIENT_EMAIL;
-  const sender = process.env.CONTACT_FROM_EMAIL ?? 'noreply@ksv-pallastrada.ch';
+  // Resend requires a verified domain for custom from addresses.
+  // Fall back to the Resend shared domain which always works.
+  const sender = process.env.CONTACT_FROM_EMAIL ?? 'KSV Pallastrada <onboarding@resend.dev>';
 
   if (!recipient) {
-    console.error('CONTACT_RECIPIENT_EMAIL is not set');
+    console.error('[contact] CONTACT_RECIPIENT_EMAIL is not set');
+    return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+  }
+
+  if (!process.env.RESEND_API_KEY) {
+    console.error('[contact] RESEND_API_KEY is not set');
     return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
   }
 
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: sender,
       to: recipient,
       replyTo: email,
@@ -71,9 +78,14 @@ export async function POST(request: NextRequest) {
       `,
     });
 
+    if (result.error) {
+      console.error('[contact] Resend API error:', result.error);
+      return NextResponse.json({ error: 'Failed to send email', detail: result.error }, { status: 500 });
+    }
+
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error('Resend error:', err);
+    console.error('[contact] Unexpected error:', err);
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 }
