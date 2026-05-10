@@ -155,11 +155,22 @@
     "confirm_delete": "Êtes-vous sûr de vouloir supprimer cet élément ?"
   },
   "footer": {
-    "tagline": "Trois sports, une association",
-    "links_title": "Liens rapides",
-    "legal": "Mentions légales",
-    "privacy": "Politique de confidentialité",
-    "rights": "Tous droits réservés"
+    "description": "Association sportive bernoise depuis 1947. Football, vélo, randonnée — unis par le sport, engagés pour demain.",
+    "col_clubs": "CLUBS",
+    "col_tournament": "TOURNOI",
+    "col_association": "ASSOCIATION",
+    "col_contact": "CONTACT",
+    "link_membership": "Adhésion",
+    "link_calendar": "Calendrier",
+    "link_standings": "Classements",
+    "link_broadcast": "Diffusion",
+    "link_archives": "Archives",
+    "link_about": "À propos",
+    "link_committee": "Comité",
+    "link_sponsors": "Sponsors",
+    "link_press": "Presse",
+    "tagline": "SPORT · NATURE · COMMUNAUTÉ",
+    "copyright": "© 2026 KSV PALLASTRADA · BERNE"
   },
   "errors": {
     "not_found": "Page introuvable",

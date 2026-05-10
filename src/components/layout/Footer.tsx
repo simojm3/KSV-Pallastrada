@@ -1,49 +1,50 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 
 interface FooterProps {
   locale: string;
 }
 
-const columns = [
-  {
-    title: 'CLUBS',
-    links: [
-      { label: 'Football', href: '/clubs/football' },
-      { label: 'Vélo', href: '/clubs/velo' },
-      { label: 'Hiking', href: '/clubs/hiking' },
-      { label: 'Adhésion', href: '/contact' },
-    ],
-  },
-  {
-    title: 'TOURNOI',
-    links: [
-      { label: 'Calendrier', href: '/tournoi' },
-      { label: 'Classements', href: '/tournoi' },
-      { label: 'Diffusion', href: '/tournoi' },
-      { label: 'Archives', href: '/tournoi' },
-    ],
-  },
-  {
-    title: 'ASSOCIATION',
-    links: [
-      { label: 'À propos', href: '/' },
-      { label: 'Comité', href: '/' },
-      { label: 'Sponsors', href: '/' },
-      { label: 'Presse', href: '/' },
-    ],
-  },
-  {
-    title: 'CONTACT',
-    links: [
-      { label: 'Berne, CH', href: '/contact' },
-      { label: '+41 31 555 0147', href: '/contact' },
-      { label: 'hello@ksv-pallastrada.ch', href: '/contact' },
-    ],
-  },
-];
+export default async function Footer({ locale }: FooterProps) {
+  const t = await getTranslations({ locale, namespace: 'footer' });
 
-export default function Footer({ locale }: FooterProps) {
+  const columns = [
+    {
+      title: t('col_clubs'),
+      links: [
+        { label: 'Football', href: '/clubs/football' },
+        { label: t('link_membership'), href: '/contact' },
+      ],
+    },
+    {
+      title: t('col_tournament'),
+      links: [
+        { label: t('link_calendar'), href: '/tournoi' },
+        { label: t('link_standings'), href: '/tournoi' },
+        { label: t('link_broadcast'), href: '/tournoi' },
+        { label: t('link_archives'), href: '/tournoi' },
+      ],
+    },
+    {
+      title: t('col_association'),
+      links: [
+        { label: t('link_about'), href: '/' },
+        { label: t('link_committee'), href: '/' },
+        { label: t('link_sponsors'), href: '/' },
+        { label: t('link_press'), href: '/' },
+      ],
+    },
+    {
+      title: t('col_contact'),
+      links: [
+        { label: 'Berne, CH', href: '/contact' },
+        { label: '+41 31 555 0147', href: '/contact' },
+        { label: 'hello@ksv-pallastrada.ch', href: '/contact' },
+      ],
+    },
+  ];
+
   return (
     <footer className="bg-navy text-paper px-5 pt-14 pb-7 sm:px-14 sm:pt-14 sm:pb-7">
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10 mb-12">
@@ -57,7 +58,7 @@ export default function Footer({ locale }: FooterProps) {
             </div>
           </Link>
           <p className="mt-4 text-[13px] leading-relaxed opacity-65 max-w-[280px] font-sans">
-            Association sportive bernoise depuis 1947. Football, vélo, randonnée — unis par le sport, engagés pour demain.
+            {t('description')}
           </p>
         </div>
 
@@ -87,8 +88,8 @@ export default function Footer({ locale }: FooterProps) {
         className="flex justify-between items-center pt-6 text-[11px] font-mono tracking-[0.1em] opacity-55"
         style={{ borderTop: '1px solid rgba(250,246,236,0.12)' }}
       >
-        <span>© 2026 KSV PALLASTRADA · BERNE</span>
-        <span>SPORT · NATURE · COMMUNAUTÉ</span>
+        <span>{t('copyright')}</span>
+        <span>{t('tagline')}</span>
       </div>
     </footer>
   );

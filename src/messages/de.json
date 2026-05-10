@@ -155,11 +155,22 @@
     "confirm_delete": "Möchten Sie diesen Eintrag wirklich löschen?"
   },
   "footer": {
-    "tagline": "Drei Sportarten, ein Verein",
-    "links_title": "Schnelllinks",
-    "legal": "Impressum",
-    "privacy": "Datenschutz",
-    "rights": "Alle Rechte vorbehalten"
+    "description": "Bernischer Sportverein seit 1947. Fussball, Velo, Wandern — vereint durch Sport, engagiert für morgen.",
+    "col_clubs": "CLUBS",
+    "col_tournament": "TURNIER",
+    "col_association": "VEREIN",
+    "col_contact": "KONTAKT",
+    "link_membership": "Mitgliedschaft",
+    "link_calendar": "Spielplan",
+    "link_standings": "Rangliste",
+    "link_broadcast": "Übertragung",
+    "link_archives": "Archiv",
+    "link_about": "Über uns",
+    "link_committee": "Vorstand",
+    "link_sponsors": "Sponsoren",
+    "link_press": "Presse",
+    "tagline": "SPORT · NATUR · GEMEINSCHAFT",
+    "copyright": "© 2026 KSV PALLASTRADA · BERN"
   },
   "errors": {
     "not_found": "Seite nicht gefunden",
