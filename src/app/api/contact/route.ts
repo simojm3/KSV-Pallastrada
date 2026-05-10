@@ -6,7 +6,7 @@ import { Resend } from 'resend';
 const contactSchema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
-  subject: z.string().min(2).max(200),
+  subject: z.string().max(200).optional().default('Autre'),
   message: z.string().min(10).max(2000),
 });
 

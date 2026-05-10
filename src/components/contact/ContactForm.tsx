@@ -58,8 +58,8 @@ function Field({
 export default function ContactForm() {
   const t = useTranslations('contact');
   const [state, setState] = useState<FormState>('idle');
-  const [form, setForm] = useState<FormData>(empty);
-  const [subjectPill, setSubjectPill] = useState('');
+  const [form, setForm] = useState<FormData>({ ...empty, subject: 'Autre' });
+  const [subjectPill, setSubjectPill] = useState('Autre');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
