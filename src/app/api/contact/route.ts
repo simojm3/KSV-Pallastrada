@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
 
   const parsed = contactSchema.safeParse(body);
   if (!parsed.success) {
+    console.error('[contact] Validation failed:', JSON.stringify(parsed.error.flatten()), '| body:', JSON.stringify(body));
     return NextResponse.json(
       { error: 'Validation error', details: parsed.error.flatten() },
       { status: 422 }
