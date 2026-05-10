@@ -32,7 +32,7 @@
       "subtitle": "Passion du ballon rond depuis 2019",
       "description": "Notre club de football accueille joueurs de tous niveaux. Entraînements hebdomadaires, matchs amicaux et compétitions locales.",
       "trainings_title": "Entraînements",
-      "trainings": "Mardi et jeudi, 19h00 — Terrain communal",
+      "trainings": "Vendredi 20:15 – 22:00 — Hochfeldstrasse 65, Bern",
       "contact_title": "Responsable",
       "join_cta": "Rejoindre le club",
       "stat_members": "MEMBRES",
@@ -87,8 +87,10 @@
     "error_title": "Erreur",
     "error_text": "Une erreur est survenue. Veuillez réessayer.",
     "address_title": "Notre adresse",
-    "phone_title": "Téléphone",
-    "email_title": "Email"
+    "training_title": "Entraînements",
+    "training_schedule": "Vendredi 20:15 – 22:00",
+    "email_title": "Email",
+    "direct_contacts": "CONTACT DIRECT"
   },
   "tournoi": {
     "title": "Tournoi de Football",

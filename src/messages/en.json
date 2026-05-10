@@ -32,7 +32,7 @@
       "subtitle": "Passion for the beautiful game since 2019",
       "description": "Our football club welcomes players of all levels. Weekly training, friendly matches and local competitions.",
       "trainings_title": "Training sessions",
-      "trainings": "Tuesday and Thursday, 7:00 PM — Community pitch",
+      "trainings": "Friday 20:15 – 22:00 — Hochfeldstrasse 65, Bern",
       "contact_title": "Club manager",
       "join_cta": "Join the club",
       "stat_members": "MEMBERS",
@@ -87,8 +87,10 @@
     "error_title": "Error",
     "error_text": "An error occurred. Please try again.",
     "address_title": "Our address",
-    "phone_title": "Phone",
-    "email_title": "Email"
+    "training_title": "Training",
+    "training_schedule": "Friday 20:15 – 22:00",
+    "email_title": "Email",
+    "direct_contacts": "DIRECT CONTACT"
   },
   "tournoi": {
     "title": "Football Tournament",

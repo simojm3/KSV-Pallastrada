@@ -32,7 +32,7 @@
       "subtitle": "Leidenschaft für den Fussball seit 2019",
       "description": "Unser Fussballclub heisst Spieler aller Niveaus willkommen. Wöchentliche Trainings, Freundschaftsspiele und lokale Wettbewerbe.",
       "trainings_title": "Trainings",
-      "trainings": "Dienstag und Donnerstag, 19:00 Uhr — Gemeindeplatz",
+      "trainings": "Freitag 20:15 – 22:00 — Hochfeldstrasse 65, Bern",
       "contact_title": "Verantwortlicher",
       "join_cta": "Club beitreten",
       "stat_members": "MITGLIEDER",
@@ -87,8 +87,10 @@
     "error_title": "Fehler",
     "error_text": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
     "address_title": "Unsere Adresse",
-    "phone_title": "Telefon",
-    "email_title": "E-Mail"
+    "training_title": "Trainings",
+    "training_schedule": "Freitag 20:15 – 22:00",
+    "email_title": "E-Mail",
+    "direct_contacts": "DIREKTKONTAKT"
   },
   "tournoi": {
     "title": "Fussballturnier",

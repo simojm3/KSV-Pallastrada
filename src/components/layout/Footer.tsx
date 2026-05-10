@@ -38,9 +38,8 @@ export default async function Footer({ locale }: FooterProps) {
     {
       title: t('col_contact'),
       links: [
-        { label: 'Berne, CH', href: '/contact' },
-        { label: '+41 31 555 0147', href: '/contact' },
-        { label: 'hello@ksv-pallastrada.ch', href: '/contact' },
+        { label: 'Hochfeldstrasse 65, 3012 Bern', href: '/contact' },
+        { label: 'contact@ksv-pallastrada.ch', href: '/contact' },
       ],
     },
   ];

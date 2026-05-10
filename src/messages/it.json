@@ -32,7 +32,7 @@
       "subtitle": "La passione del calcio dal 2019",
       "description": "Il nostro club di calcio accoglie giocatori di tutti i livelli. Allenamenti settimanali, amichevoli e competizioni locali.",
       "trainings_title": "Allenamenti",
-      "trainings": "Martedì e giovedì, ore 19:00 — Campo comunale",
+      "trainings": "Venerdì 20:15 – 22:00 — Hochfeldstrasse 65, Berna",
       "contact_title": "Responsabile",
       "join_cta": "Unisciti al club",
       "stat_members": "MEMBRI",
@@ -87,8 +87,10 @@
     "error_title": "Errore",
     "error_text": "Si è verificato un errore. Riprova.",
     "address_title": "Il nostro indirizzo",
-    "phone_title": "Telefono",
-    "email_title": "Email"
+    "training_title": "Allenamenti",
+    "training_schedule": "Venerdì 20:15 – 22:00",
+    "email_title": "Email",
+    "direct_contacts": "CONTATTO DIRETTO"
   },
   "tournoi": {
     "title": "Torneo di Calcio",
