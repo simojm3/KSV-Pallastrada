@@ -21,18 +21,20 @@ export default async function FootballPage({ params }: { params: { locale: strin
       description={t('description')}
       accent="#5A8A2E"
       joinCta={t('join_cta')}
+      ctaLine1={t('cta_line1')}
+      ctaLine2={t('cta_line2')}
+      aboutLabel={t('about_label')}
+      teamsLabel={t('teams_label')}
+      nextMatchLabel={t('next_match_label')}
       stats={[
-        { n: '312', label: 'MEMBRES' },
-        { n: '6', label: 'ÉQUIPES' },
-        { n: '18', label: 'MATCHS / SAISON' },
-        { n: '79%', label: 'VICTOIRES' },
+        { n: '42', label: t('stat_members') },
+        { n: '2', label: t('stat_teams') },
       ]}
-      teams={['1ère équipe', '2ème équipe', 'Juniors A', 'Juniors B', 'U13', 'Vétérans']}
+      teams={['1ère équipe', '2ème équipe']}
       nextMatch={{
         home: 'KSV PALLASTRADA',
-        away: 'SC BERNE II',
-        date: '14 MAI 2026',
-        time: '18:30',
+        away: 'TOURNOI 2026',
+        date: '7 JUIN 2026',
       }}
     />
   );

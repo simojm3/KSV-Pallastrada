@@ -21,13 +21,16 @@ export default async function VeloPage({ params }: { params: { locale: string } 
       description={t('description')}
       accent="#C24A2C"
       joinCta={t('join_cta')}
+      ctaLine1={t('cta_line1')}
+      ctaLine2={t('cta_line2')}
+      aboutLabel={t('about_label')}
+      teamsLabel={t('teams_label')}
       stats={[
-        { n: '68', label: 'MEMBRES' },
-        { n: '4', label: 'GROUPES' },
-        { n: '120+', label: 'KM / SORTIE' },
-        { n: '52', label: 'SORTIES / AN' },
+        { n: '23', label: t('stat_members') },
+        { n: '1', label: t('stat_group') },
+        { n: '40km+', label: t('stat_km') },
       ]}
-      teams={['Élite Route', 'Gravel Club', 'VTT Découverte', 'Cyclo-tourisme']}
+      teams={['Groupe Pallastrada']}
     />
   );
 }

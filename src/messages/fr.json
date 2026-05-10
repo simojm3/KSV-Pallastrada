@@ -23,12 +23,19 @@
   "clubs": {
     "football": {
       "title": "Club Football",
-      "subtitle": "Passion du ballon rond depuis 1985",
+      "subtitle": "Passion du ballon rond depuis 2019",
       "description": "Notre club de football accueille joueurs de tous niveaux. Entraînements hebdomadaires, matchs amicaux et compétitions locales.",
       "trainings_title": "Entraînements",
       "trainings": "Mardi et jeudi, 19h00 — Terrain communal",
       "contact_title": "Responsable",
-      "join_cta": "Rejoindre le club"
+      "join_cta": "Rejoindre le club",
+      "stat_members": "MEMBRES",
+      "stat_teams": "ÉQUIPES",
+      "next_match_label": "PROCHAIN MATCH",
+      "about_label": "À PROPOS",
+      "teams_label": "NOS ÉQUIPES",
+      "cta_line1": "PRÊT À JOUER",
+      "cta_line2": "AVEC NOUS ?"
     },
     "velo": {
       "title": "Club Vélo",
@@ -37,7 +44,14 @@
       "trainings_title": "Sorties",
       "trainings": "Samedi matin, 8h30 — Départ place centrale",
       "contact_title": "Responsable",
-      "join_cta": "Rejoindre le club"
+      "join_cta": "Rejoindre le club",
+      "stat_members": "MEMBRES",
+      "stat_group": "GROUPE",
+      "stat_km": "KM PAR SORTIE",
+      "about_label": "À PROPOS",
+      "teams_label": "NOTRE GROUPE",
+      "cta_line1": "PRÊT À ROULER",
+      "cta_line2": "AVEC NOUS ?"
     },
     "hiking": {
       "title": "Club Randonnée",
@@ -46,7 +60,11 @@
       "trainings_title": "Sorties",
       "trainings": "Un dimanche par mois — Programme publié en début de mois",
       "contact_title": "Responsable",
-      "join_cta": "Rejoindre le club"
+      "join_cta": "Rejoindre le club",
+      "about_label": "À PROPOS",
+      "teams_label": "NOS GROUPES",
+      "cta_line1": "PRÊT À RANDONNER",
+      "cta_line2": "AVEC NOUS ?"
     }
   },
   "contact": {
@@ -155,7 +173,7 @@
     "confirm_delete": "Êtes-vous sûr de vouloir supprimer cet élément ?"
   },
   "footer": {
-    "description": "Association sportive bernoise depuis 1947. Football, vélo, randonnée — unis par le sport, engagés pour demain.",
+    "description": "Association sportive bernoise depuis 2019. Football, vélo, randonnée — unis par le sport, engagés pour demain.",
     "col_clubs": "CLUBS",
     "col_tournament": "TOURNOI",
     "col_association": "ASSOCIATION",

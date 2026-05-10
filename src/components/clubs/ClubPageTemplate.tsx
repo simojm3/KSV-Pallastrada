@@ -7,11 +7,16 @@ interface ClubPageTemplateProps {
   title: string;
   subtitle: string;
   description: string;
-  accent: string;           // hex color e.g. '#5A8A2E'
+  accent: string;
   joinCta?: string;
+  ctaLine1: string;
+  ctaLine2: string;
+  aboutLabel: string;
+  teamsLabel: string;
+  nextMatchLabel?: string;
   stats: { n: string; label: string }[];
   teams: string[];
-  nextMatch?: { home: string; away: string; date: string; time: string };
+  nextMatch?: { home: string; away: string; date: string; time?: string };
 }
 
 export default function ClubPageTemplate({
@@ -22,6 +27,11 @@ export default function ClubPageTemplate({
   description,
   accent,
   joinCta,
+  ctaLine1,
+  ctaLine2,
+  aboutLabel,
+  teamsLabel,
+  nextMatchLabel,
   stats,
   teams,
   nextMatch,
@@ -84,13 +94,15 @@ export default function ClubPageTemplate({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Description */}
           <div>
-            <p className="font-mono text-[11px] tracking-[0.2em] text-stone mb-5">À PROPOS</p>
+            <p className="font-mono text-[11px] tracking-[0.2em] text-stone mb-5">{aboutLabel}</p>
             <p className="font-sans text-ink text-lg leading-relaxed mb-8" style={{ opacity: 0.8 }}>
               {description}
             </p>
             {nextMatch && (
               <div className="bg-navy p-6" style={{ borderTop: `3px solid ${accent}` }}>
-                <p className="font-mono text-[10px] tracking-[0.2em] text-stone-l mb-4">PROCHAIN MATCH</p>
+                <p className="font-mono text-[10px] tracking-[0.2em] text-stone-l mb-4">
+                  {nextMatchLabel ?? 'PROCHAIN MATCH'}
+                </p>
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-display text-paper" style={{ fontSize: 28 }}>{nextMatch.home}</span>
                   <span className="font-mono text-[13px] text-stone-l font-bold">VS</span>
@@ -98,29 +110,30 @@ export default function ClubPageTemplate({
                 </div>
                 <div className="flex items-center gap-4 font-mono text-[11px] tracking-[0.12em] text-stone-l">
                   <span>{nextMatch.date}</span>
-                  <span>·</span>
-                  <span>{nextMatch.time}</span>
+                  {nextMatch.time && <><span>·</span><span>{nextMatch.time}</span></>}
                 </div>
               </div>
             )}
           </div>
 
           {/* Teams grid */}
-          <div>
-            <p className="font-mono text-[11px] tracking-[0.2em] text-stone mb-5">NOS ÉQUIPES</p>
-            <div className="grid grid-cols-2 gap-0.5">
-              {teams.map((team) => (
-                <div
-                  key={team}
-                  className="flex items-center gap-3 p-4 bg-cream"
-                  style={{ borderLeft: `3px solid ${accent}` }}
-                >
-                  <div className="w-2 h-2 rounded-full" style={{ background: accent }} />
-                  <span className="font-sans text-[14px] font-semibold text-navy">{team}</span>
-                </div>
-              ))}
+          {teams.length > 0 && (
+            <div>
+              <p className="font-mono text-[11px] tracking-[0.2em] text-stone mb-5">{teamsLabel}</p>
+              <div className="grid grid-cols-2 gap-0.5">
+                {teams.map((team) => (
+                  <div
+                    key={team}
+                    className="flex items-center gap-3 p-4 bg-cream"
+                    style={{ borderLeft: `3px solid ${accent}` }}
+                  >
+                    <div className="w-2 h-2 rounded-full" style={{ background: accent }} />
+                    <span className="font-sans text-[14px] font-semibold text-navy">{team}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -128,8 +141,8 @@ export default function ClubPageTemplate({
       <section className="bg-navy-deep px-5 py-14 sm:px-14 sm:py-20">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <h2 className="font-display text-paper leading-none text-5xl sm:text-7xl">
-            PRÊT À JOUER<br />
-            <span style={{ color: accent }}>AVEC NOUS?</span>
+            {ctaLine1}<br />
+            <span style={{ color: accent }}>{ctaLine2}</span>
           </h2>
           <Link
             href={`/${locale}/contact`}

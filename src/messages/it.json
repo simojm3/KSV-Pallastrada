@@ -23,12 +23,19 @@
   "clubs": {
     "football": {
       "title": "Club Calcio",
-      "subtitle": "La passione del calcio dal 1985",
+      "subtitle": "La passione del calcio dal 2019",
       "description": "Il nostro club di calcio accoglie giocatori di tutti i livelli. Allenamenti settimanali, amichevoli e competizioni locali.",
       "trainings_title": "Allenamenti",
       "trainings": "Martedì e giovedì, ore 19:00 — Campo comunale",
       "contact_title": "Responsabile",
-      "join_cta": "Unisciti al club"
+      "join_cta": "Unisciti al club",
+      "stat_members": "MEMBRI",
+      "stat_teams": "SQUADRE",
+      "next_match_label": "PROSSIMA PARTITA",
+      "about_label": "CHI SIAMO",
+      "teams_label": "LE NOSTRE SQUADRE",
+      "cta_line1": "PRONTO A GIOCARE",
+      "cta_line2": "CON NOI?"
     },
     "velo": {
       "title": "Club Ciclismo",
@@ -37,7 +44,14 @@
       "trainings_title": "Uscite",
       "trainings": "Sabato mattina, ore 8:30 — Partenza dalla piazza centrale",
       "contact_title": "Responsabile",
-      "join_cta": "Unisciti al club"
+      "join_cta": "Unisciti al club",
+      "stat_members": "MEMBRI",
+      "stat_group": "GRUPPO",
+      "stat_km": "KM A USCITA",
+      "about_label": "CHI SIAMO",
+      "teams_label": "IL NOSTRO GRUPPO",
+      "cta_line1": "PRONTO A PEDALARE",
+      "cta_line2": "CON NOI?"
     },
     "hiking": {
       "title": "Club Escursionismo",
@@ -46,7 +60,11 @@
       "trainings_title": "Uscite",
       "trainings": "Una domenica al mese — Programma pubblicato a inizio mese",
       "contact_title": "Responsabile",
-      "join_cta": "Unisciti al club"
+      "join_cta": "Unisciti al club",
+      "about_label": "CHI SIAMO",
+      "teams_label": "I NOSTRI GRUPPI",
+      "cta_line1": "PRONTO A CAMMINARE",
+      "cta_line2": "CON NOI?"
     }
   },
   "contact": {
@@ -155,7 +173,7 @@
     "confirm_delete": "Sei sicuro di voler eliminare questo elemento?"
   },
   "footer": {
-    "description": "Associazione sportiva bernese dal 1947. Calcio, ciclismo, escursionismo — uniti dallo sport, impegnati per il futuro.",
+    "description": "Associazione sportiva bernese dal 2019. Calcio, ciclismo, escursionismo — uniti dallo sport, impegnati per il futuro.",
     "col_clubs": "CLUB",
     "col_tournament": "TORNEO",
     "col_association": "ASSOCIAZIONE",

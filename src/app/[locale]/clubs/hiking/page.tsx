@@ -21,6 +21,10 @@ export default async function HikingPage({ params }: { params: { locale: string 
       description={t('description')}
       accent="#7FA8C9"
       joinCta={t('join_cta')}
+      ctaLine1={t('cta_line1')}
+      ctaLine2={t('cta_line2')}
+      aboutLabel={t('about_label')}
+      teamsLabel={t('teams_label')}
       stats={[
         { n: '32', label: 'MEMBRES' },
         { n: '12', label: 'SORTIES / AN' },

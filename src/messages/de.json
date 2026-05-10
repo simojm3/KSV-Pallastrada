@@ -23,12 +23,19 @@
   "clubs": {
     "football": {
       "title": "Fussball Club",
-      "subtitle": "Leidenschaft für den Fussball seit 1985",
+      "subtitle": "Leidenschaft für den Fussball seit 2019",
       "description": "Unser Fussballclub heisst Spieler aller Niveaus willkommen. Wöchentliche Trainings, Freundschaftsspiele und lokale Wettbewerbe.",
       "trainings_title": "Trainings",
       "trainings": "Dienstag und Donnerstag, 19:00 Uhr — Gemeindeplatz",
       "contact_title": "Verantwortlicher",
-      "join_cta": "Club beitreten"
+      "join_cta": "Club beitreten",
+      "stat_members": "MITGLIEDER",
+      "stat_teams": "MANNSCHAFTEN",
+      "next_match_label": "NÄCHSTES SPIEL",
+      "about_label": "ÜBER UNS",
+      "teams_label": "UNSERE MANNSCHAFTEN",
+      "cta_line1": "BEREIT ZU SPIELEN",
+      "cta_line2": "MIT UNS?"
     },
     "velo": {
       "title": "Velo Club",
@@ -37,7 +44,14 @@
       "trainings_title": "Ausfahrten",
       "trainings": "Samstagmorgen, 8:30 Uhr — Abfahrt Dorfplatz",
       "contact_title": "Verantwortlicher",
-      "join_cta": "Club beitreten"
+      "join_cta": "Club beitreten",
+      "stat_members": "MITGLIEDER",
+      "stat_group": "GRUPPE",
+      "stat_km": "KM PRO AUSFAHRT",
+      "about_label": "ÜBER UNS",
+      "teams_label": "UNSERE GRUPPE",
+      "cta_line1": "BEREIT ZU FAHREN",
+      "cta_line2": "MIT UNS?"
     },
     "hiking": {
       "title": "Wanderclub",
@@ -46,7 +60,11 @@
       "trainings_title": "Ausflüge",
       "trainings": "Einen Sonntag pro Monat — Programm zu Monatsbeginn",
       "contact_title": "Verantwortlicher",
-      "join_cta": "Club beitreten"
+      "join_cta": "Club beitreten",
+      "about_label": "ÜBER UNS",
+      "teams_label": "UNSERE GRUPPEN",
+      "cta_line1": "BEREIT ZU WANDERN",
+      "cta_line2": "MIT UNS?"
     }
   },
   "contact": {
@@ -155,7 +173,7 @@
     "confirm_delete": "Möchten Sie diesen Eintrag wirklich löschen?"
   },
   "footer": {
-    "description": "Bernischer Sportverein seit 1947. Fussball, Velo, Wandern — vereint durch Sport, engagiert für morgen.",
+    "description": "Bernischer Sportverein seit 2019. Fussball, Velo, Wandern — vereint durch Sport, engagiert für morgen.",
     "col_clubs": "CLUBS",
     "col_tournament": "TURNIER",
     "col_association": "VEREIN",

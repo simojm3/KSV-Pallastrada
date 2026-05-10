@@ -23,12 +23,19 @@
   "clubs": {
     "football": {
       "title": "Football Club",
-      "subtitle": "Passion for the beautiful game since 1985",
+      "subtitle": "Passion for the beautiful game since 2019",
       "description": "Our football club welcomes players of all levels. Weekly training, friendly matches and local competitions.",
       "trainings_title": "Training sessions",
       "trainings": "Tuesday and Thursday, 7:00 PM — Community pitch",
       "contact_title": "Club manager",
-      "join_cta": "Join the club"
+      "join_cta": "Join the club",
+      "stat_members": "MEMBERS",
+      "stat_teams": "TEAMS",
+      "next_match_label": "NEXT MATCH",
+      "about_label": "ABOUT",
+      "teams_label": "OUR TEAMS",
+      "cta_line1": "READY TO PLAY",
+      "cta_line2": "WITH US?"
     },
     "velo": {
       "title": "Cycling Club",
@@ -37,7 +44,14 @@
       "trainings_title": "Rides",
       "trainings": "Saturday morning, 8:30 AM — Depart from central square",
       "contact_title": "Club manager",
-      "join_cta": "Join the club"
+      "join_cta": "Join the club",
+      "stat_members": "MEMBERS",
+      "stat_group": "GROUP",
+      "stat_km": "KM PER RIDE",
+      "about_label": "ABOUT",
+      "teams_label": "OUR GROUP",
+      "cta_line1": "READY TO RIDE",
+      "cta_line2": "WITH US?"
     },
     "hiking": {
       "title": "Hiking Club",
@@ -46,7 +60,11 @@
       "trainings_title": "Outings",
       "trainings": "One Sunday per month — Schedule published at start of month",
       "contact_title": "Club manager",
-      "join_cta": "Join the club"
+      "join_cta": "Join the club",
+      "about_label": "ABOUT",
+      "teams_label": "OUR GROUPS",
+      "cta_line1": "READY TO HIKE",
+      "cta_line2": "WITH US?"
     }
   },
   "contact": {
@@ -155,7 +173,7 @@
     "confirm_delete": "Are you sure you want to delete this item?"
   },
   "footer": {
-    "description": "A Bernese sports association since 1947. Football, cycling, hiking — united by sport, committed to tomorrow.",
+    "description": "A Bernese sports association since 2019. Football, cycling, hiking — united by sport, committed to tomorrow.",
     "col_clubs": "CLUBS",
     "col_tournament": "TOURNAMENT",
     "col_association": "ASSOCIATION",
