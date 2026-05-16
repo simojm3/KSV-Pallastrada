@@ -95,7 +95,7 @@ export default async function Footer({ locale }: FooterProps) {
           rel="noopener noreferrer"
           className="hover:opacity-100 transition-opacity"
         >
-          Site créé par <span className="text-sun">Apex Digital</span>
+          {t('made_by')} <span className="text-sun">Apex Digital</span>
         </a>
       </div>
     </footer>
