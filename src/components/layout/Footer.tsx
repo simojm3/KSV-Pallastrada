@@ -84,11 +84,19 @@ export default async function Footer({ locale }: FooterProps) {
       </div>
 
       <div
-        className="flex justify-between items-center pt-6 text-[11px] font-mono tracking-[0.1em] opacity-55"
+        className="flex flex-col sm:flex-row justify-between items-center gap-2 pt-6 text-[11px] font-mono tracking-[0.1em] opacity-55"
         style={{ borderTop: '1px solid rgba(250,246,236,0.12)' }}
       >
         <span>{t('copyright')}</span>
         <span>{t('tagline')}</span>
+        <a
+          href="https://apexdigital.ch"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:opacity-100 transition-opacity"
+        >
+          Site créé par <span className="text-sun">Apex Digital</span>
+        </a>
       </div>
     </footer>
   );
