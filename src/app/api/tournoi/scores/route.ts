@@ -43,36 +43,35 @@ export async function GET() {
       }),
     ]);
 
-    // Inject abreviation into equipe objects
-    const withAbr = (equipe: { id: string; [key: string]: unknown }) => ({
+    // Inject abreviation into equipe objects while preserving all original fields
+    const withAbr = <T extends { id: string }>(equipe: T): T & { abreviation: string | null } => ({
       ...equipe,
       abreviation: abrMap.get(equipe.id) ?? null,
     });
 
-    const enrichMatch = (m: unknown) => {
-      const match = m as { id: string; equipeDomicile: { id: string }; equipeExterieur: { id: string } };
-      return {
-        ...match,
-        equipeDomicile: withAbr(match.equipeDomicile as { id: string; [key: string]: unknown }),
-        equipeExterieur: withAbr(match.equipeExterieur as { id: string; [key: string]: unknown }),
-      };
-    };
-
     const data: TournoiData = {
       groupes: groupes.map((g) => {
         const teamIds = new Set(g.equipes.map((e) => e.id));
-        const enrichedEquipes = g.equipes.map((e) => withAbr(e as { id: string; [key: string]: unknown }));
+        const enrichedEquipes = g.equipes.map(withAbr);
         const groupMatchs = allMatchs
           .filter((m) => teamIds.has(m.equipeDomicileId))
-          .map(enrichMatch) as unknown as Match[];
+          .map((m) => ({
+            ...m,
+            equipeDomicile: withAbr(m.equipeDomicile),
+            equipeExterieur: withAbr(m.equipeExterieur),
+          })) as unknown as Match[];
         return {
           ...g,
-          equipes: enrichedEquipes,
+          equipes: enrichedEquipes as unknown as import('@/types/tournoi').Equipe[],
           matchs: groupMatchs,
           standings: computeStandings(enrichedEquipes as unknown as import('@/types/tournoi').Equipe[], groupMatchs),
         };
       }),
-      matchsFinale: matchsFinale.map(enrichMatch) as unknown as Match[],
+      matchsFinale: matchsFinale.map((m) => ({
+        ...m,
+        equipeDomicile: withAbr(m.equipeDomicile),
+        equipeExterieur: withAbr(m.equipeExterieur),
+      })) as unknown as Match[],
       lastUpdated: new Date().toISOString(),
     };
 
