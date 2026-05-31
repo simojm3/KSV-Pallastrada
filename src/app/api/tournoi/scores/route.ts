@@ -8,6 +8,18 @@ export const revalidate = 0;
 
 export async function GET() {
   try {
+    // Ensure buts table exists (resilient against accidental drops)
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS buts (
+        id TEXT PRIMARY KEY,
+        "matchId" TEXT NOT NULL REFERENCES matchs(id) ON DELETE CASCADE,
+        "equipeId" TEXT NOT NULL,
+        minute INTEGER,
+        buteur TEXT,
+        "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `).catch(() => {});
+
     const [groupes, allMatchs, matchsFinale, allButs] = await Promise.all([
       prisma.groupe.findMany({
         include: { equipes: true },
@@ -25,7 +37,7 @@ export async function GET() {
       }),
       prisma.$queryRaw<{ id: string; matchId: string; equipeId: string; minute: number | null; buteur: string | null }[]>`
         SELECT id, "matchId", "equipeId", minute, buteur FROM buts ORDER BY minute ASC NULLS LAST, "createdAt" ASC
-      `,
+      `.catch(() => [] as { id: string; matchId: string; equipeId: string; minute: number | null; buteur: string | null }[]),
     ]);
 
     const butsMap = new Map<string, typeof allButs>();

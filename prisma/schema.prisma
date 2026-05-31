@@ -47,10 +47,23 @@ model Match {
   heure            DateTime?
   terrain          String?
   ordre            Int?        // Pour trier l'affichage
+  buts             But[]
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
 
   @@map("matchs")
+}
+
+model But {
+  id        String   @id @default(uuid())
+  match     Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  matchId   String
+  equipeId  String
+  minute    Int?
+  buteur    String?
+  createdAt DateTime @default(now())
+
+  @@map("buts")
 }
 
 model Config {

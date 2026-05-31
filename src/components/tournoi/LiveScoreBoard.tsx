@@ -11,7 +11,14 @@ import WinnerModal from './WinnerModal';
 import PodiumSection from './PodiumSection';
 import { getPusherClient, PUSHER_CHANNEL, PUSHER_EVENT } from '@/lib/pusher-client';
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
+const fetcher = async (url: string) => {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const json = await r.json();
+  // Guard: if the API returned an error body, treat it as a fetch error
+  if (!Array.isArray(json?.groupes)) throw new Error('Invalid data');
+  return json;
+};
 
 export default function LiveScoreBoard({ fallbackData }: { fallbackData?: TournoiData }) {
   const t = useTranslations('tournoi');
@@ -70,14 +77,18 @@ export default function LiveScoreBoard({ fallbackData }: { fallbackData?: Tourno
     );
   }
 
-  if (error || !data || !Array.isArray(data.groupes)) {
-    return (
-      <div className="py-32 text-center">
-        <p className="font-mono text-[12px] tracking-[0.1em]" style={{ color: 'rgba(166,173,185,0.4)' }}>
-          {t('error')}
-        </p>
-      </div>
-    );
+  // If SWR revalidation fails but we already have data, keep showing it (don't blank the page)
+  if (!data || !Array.isArray(data.groupes)) {
+    if (error) {
+      return (
+        <div className="py-32 text-center">
+          <p className="font-mono text-[12px] tracking-[0.1em]" style={{ color: 'rgba(166,173,185,0.4)' }}>
+            {t('error')}
+          </p>
+        </div>
+      );
+    }
+    return null;
   }
 
   return (
