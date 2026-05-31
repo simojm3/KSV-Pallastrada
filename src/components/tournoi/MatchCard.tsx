@@ -94,23 +94,31 @@ export default function MatchCard({ match }: { match: Match }) {
           </span>
         </div>
 
-        {/* Badge */}
-        <div className="hidden sm:block w-16 shrink-0 text-right">
-          {isDone && (
+        {/* Terrain + Badge */}
+        <div className="shrink-0 text-right flex flex-col items-end gap-1">
+          {match.terrain && (
             <span
-              className="font-mono text-[9px] tracking-[0.14em] px-2 py-1"
-              style={{ border: '1px solid rgba(166,173,185,0.2)', color: 'rgba(166,173,185,0.4)' }}
+              className="font-mono text-[9px] tracking-[0.12em] px-2 py-0.5 flex items-center gap-1"
+              style={{ background: 'rgba(90,138,46,0.15)', color: 'rgba(90,138,46,0.9)', border: '1px solid rgba(90,138,46,0.3)' }}
             >
-              {t('finished_badge')}
+              <span>⚑</span> {match.terrain.toUpperCase()}
             </span>
           )}
-          {!isLive && !isDone && (
-            <span
-              className="font-mono text-[9px] tracking-[0.14em] px-2 py-1 bg-navy text-paper opacity-50"
-            >
-              {t('upcoming_badge')}
-            </span>
-          )}
+          <div className="hidden sm:block">
+            {isDone && (
+              <span
+                className="font-mono text-[9px] tracking-[0.14em] px-2 py-1"
+                style={{ border: '1px solid rgba(166,173,185,0.2)', color: 'rgba(166,173,185,0.4)' }}
+              >
+                {t('finished_badge')}
+              </span>
+            )}
+            {!isLive && !isDone && (
+              <span className="font-mono text-[9px] tracking-[0.14em] px-2 py-1 bg-navy text-paper opacity-50">
+                {t('upcoming_badge')}
+              </span>
+            )}
+          </div>
         </div>
       </div>
 

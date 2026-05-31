@@ -31,24 +31,24 @@ async function main() {
   const KAR = await prisma.equipe.create({ data: { nom: 'Kariim',          groupeId: groupeB.id } });
   const JPG = await prisma.equipe.create({ data: { nom: 'Joda Pichanguera',groupeId: groupeB.id } });
 
-  // ── Matchs Groupe A (double round-robin) ─────────────────────
+  // ── Matchs Groupe A (double round-robin) — Terrain 1 ─────────
   const matchsA = [
-    { dom: MZA, ext: PNG, heure: t('13:30'), ordre: 1 },
-    { dom: PST, ext: MZA, heure: t('14:00'), ordre: 2 },
-    { dom: PNG, ext: PST, heure: t('14:30'), ordre: 3 },
-    { dom: PNG, ext: MZA, heure: t('15:00'), ordre: 4 },
-    { dom: MZA, ext: PST, heure: t('15:30'), ordre: 5 },
-    { dom: PST, ext: PNG, heure: t('16:00'), ordre: 6 },
+    { dom: MZA, ext: PNG, heure: t('13:30'), ordre: 1, terrain: 'Terrain 1' },
+    { dom: PST, ext: MZA, heure: t('14:00'), ordre: 2, terrain: 'Terrain 1' },
+    { dom: PNG, ext: PST, heure: t('14:30'), ordre: 3, terrain: 'Terrain 1' },
+    { dom: PNG, ext: MZA, heure: t('15:00'), ordre: 4, terrain: 'Terrain 1' },
+    { dom: MZA, ext: PST, heure: t('15:30'), ordre: 5, terrain: 'Terrain 1' },
+    { dom: PST, ext: PNG, heure: t('16:00'), ordre: 6, terrain: 'Terrain 1' },
   ];
 
-  // ── Matchs Groupe B (double round-robin) ─────────────────────
+  // ── Matchs Groupe B (double round-robin) — Terrain 2 ─────────
   const matchsB = [
-    { dom: KAR, ext: JPG, heure: t('13:30'), ordre: 1 },
-    { dom: BAO, ext: KAR, heure: t('14:00'), ordre: 2 },
-    { dom: JPG, ext: BAO, heure: t('14:30'), ordre: 3 },
-    { dom: JPG, ext: KAR, heure: t('15:00'), ordre: 4 },
-    { dom: KAR, ext: BAO, heure: t('15:30'), ordre: 5 },
-    { dom: BAO, ext: JPG, heure: t('16:00'), ordre: 6 },
+    { dom: KAR, ext: JPG, heure: t('13:30'), ordre: 1, terrain: 'Terrain 2' },
+    { dom: BAO, ext: KAR, heure: t('14:00'), ordre: 2, terrain: 'Terrain 2' },
+    { dom: JPG, ext: BAO, heure: t('14:30'), ordre: 3, terrain: 'Terrain 2' },
+    { dom: JPG, ext: KAR, heure: t('15:00'), ordre: 4, terrain: 'Terrain 2' },
+    { dom: KAR, ext: BAO, heure: t('15:30'), ordre: 5, terrain: 'Terrain 2' },
+    { dom: BAO, ext: JPG, heure: t('16:00'), ordre: 6, terrain: 'Terrain 2' },
   ];
 
   for (const m of [...matchsA, ...matchsB]) {
@@ -57,6 +57,7 @@ async function main() {
         equipeDomicileId: m.dom.id,
         equipeExterieId:  m.ext.id,
         heure:            m.heure,
+        terrain:          m.terrain,
         statut:           MatchStatut.A_VENIR,
         phase:            MatchPhase.GROUPES,
         ordre:            m.ordre,
@@ -68,46 +69,50 @@ async function main() {
   // Demi-finales 16:30 : 1er A vs 2e B  |  1er B vs 2e A
   await prisma.match.create({
     data: {
-      equipeDomicileId: PST.id, // sera mis à jour après groupes
+      equipeDomicileId: PST.id,
       equipeExterieId:  KAR.id,
-      heure:  t('16:30'),
-      statut: MatchStatut.A_VENIR,
-      phase:  MatchPhase.DEMI_FINALE,
-      ordre:  1,
+      heure:    t('16:30'),
+      terrain:  'Terrain 1',
+      statut:   MatchStatut.A_VENIR,
+      phase:    MatchPhase.DEMI_FINALE,
+      ordre:    1,
     },
   });
   await prisma.match.create({
     data: {
       equipeDomicileId: BAO.id,
       equipeExterieId:  MZA.id,
-      heure:  t('16:30'),
-      statut: MatchStatut.A_VENIR,
-      phase:  MatchPhase.DEMI_FINALE,
-      ordre:  2,
+      heure:    t('16:30'),
+      terrain:  'Terrain 2',
+      statut:   MatchStatut.A_VENIR,
+      phase:    MatchPhase.DEMI_FINALE,
+      ordre:    2,
     },
   });
 
-  // 3e place 17:00
+  // 3e place 17:00 — Terrain 2
   await prisma.match.create({
     data: {
       equipeDomicileId: PNG.id,
       equipeExterieId:  JPG.id,
-      heure:  t('17:00'),
-      statut: MatchStatut.A_VENIR,
-      phase:  MatchPhase.TROISIEME_PLACE,
-      ordre:  1,
+      heure:    t('17:00'),
+      terrain:  'Terrain 2',
+      statut:   MatchStatut.A_VENIR,
+      phase:    MatchPhase.TROISIEME_PLACE,
+      ordre:    1,
     },
   });
 
-  // Finale 17:30
+  // Finale 17:30 — Terrain 1
   await prisma.match.create({
     data: {
       equipeDomicileId: PST.id,
       equipeExterieId:  BAO.id,
-      heure:  t('17:30'),
-      statut: MatchStatut.A_VENIR,
-      phase:  MatchPhase.FINALE,
-      ordre:  1,
+      heure:    t('17:30'),
+      terrain:  'Terrain 1',
+      statut:   MatchStatut.A_VENIR,
+      phase:    MatchPhase.FINALE,
+      ordre:    1,
     },
   });
 
