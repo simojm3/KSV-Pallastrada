@@ -46,9 +46,17 @@ export default async function TournoiPage({ params }: { params: { locale: string
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'tournoi' });
 
-  await prisma.$executeRaw`INSERT INTO config (id, "liveVisible") VALUES ('main', false) ON CONFLICT (id) DO NOTHING`;
+  // Ensure config table + default row exist (resilient against dropped table)
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE IF NOT EXISTS config (
+      id TEXT PRIMARY KEY,
+      "liveVisible" BOOLEAN NOT NULL DEFAULT false
+    )
+  `).catch(() => {});
+  await prisma.$executeRaw`INSERT INTO config (id, "liveVisible") VALUES ('main', false) ON CONFLICT (id) DO NOTHING`.catch(() => {});
+
   const [configRows, initialData] = await Promise.all([
-    prisma.$queryRaw<{ liveVisible: boolean }[]>`SELECT "liveVisible" FROM config WHERE id = 'main'`,
+    prisma.$queryRaw<{ liveVisible: boolean }[]>`SELECT "liveVisible" FROM config WHERE id = 'main'`.catch(() => []),
     getTournoiData().catch(() => undefined),
   ]);
   const config = { liveVisible: configRows[0]?.liveVisible ?? false };

@@ -7,15 +7,21 @@ export const dynamic = 'force-dynamic';
 type ConfigRow = { id: string; liveVisible: boolean };
 
 async function getConfig(): Promise<ConfigRow> {
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE IF NOT EXISTS config (
+      id TEXT PRIMARY KEY,
+      "liveVisible" BOOLEAN NOT NULL DEFAULT false
+    )
+  `).catch(() => {});
   await prisma.$executeRaw`
     INSERT INTO config (id, "liveVisible")
     VALUES ('main', false)
     ON CONFLICT (id) DO NOTHING
-  `;
+  `.catch(() => {});
   const rows = await prisma.$queryRaw<ConfigRow[]>`
     SELECT id, "liveVisible" FROM config WHERE id = 'main'
   `;
-  return rows[0];
+  return rows[0] ?? { id: 'main', liveVisible: false };
 }
 
 export async function GET() {
