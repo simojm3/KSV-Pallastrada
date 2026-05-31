@@ -20,7 +20,13 @@ export async function GET() {
       )
     `).catch(() => {});
 
-    const [groupes, allMatchs, matchsFinale, allButs] = await Promise.all([
+    // Fetch abreviations via raw SQL (column added after initial Prisma client generation)
+    const equipesAbr = await prisma.$queryRaw<{ id: string; abreviation: string | null }[]>`
+      SELECT id, abreviation FROM equipes
+    `.catch(() => [] as { id: string; abreviation: string | null }[]);
+    const abrMap = new Map(equipesAbr.map((e) => [e.id, e.abreviation]));
+
+    const [groupes, allMatchs, matchsFinale] = await Promise.all([
       prisma.groupe.findMany({
         include: { equipes: true },
         orderBy: { nom: 'asc' },
@@ -35,33 +41,38 @@ export async function GET() {
         include: { equipeDomicile: true, equipeExterieur: true },
         orderBy: [{ phase: 'asc' }, { ordre: 'asc' }],
       }),
-      prisma.$queryRaw<{ id: string; matchId: string; equipeId: string; minute: number | null; buteur: string | null }[]>`
-        SELECT id, "matchId", "equipeId", minute, buteur FROM buts ORDER BY minute ASC NULLS LAST, "createdAt" ASC
-      `.catch(() => [] as { id: string; matchId: string; equipeId: string; minute: number | null; buteur: string | null }[]),
     ]);
 
-    const butsMap = new Map<string, typeof allButs>();
-    for (const but of allButs) {
-      if (!butsMap.has(but.matchId)) butsMap.set(but.matchId, []);
-      butsMap.get(but.matchId)!.push(but);
-    }
-
-    const withButs = (m: unknown) => ({
-      ...(m as object),
-      buts: butsMap.get((m as { id: string }).id) ?? [],
+    // Inject abreviation into equipe objects
+    const withAbr = (equipe: { id: string; [key: string]: unknown }) => ({
+      ...equipe,
+      abreviation: abrMap.get(equipe.id) ?? null,
     });
+
+    const enrichMatch = (m: unknown) => {
+      const match = m as { id: string; equipeDomicile: { id: string }; equipeExterieur: { id: string } };
+      return {
+        ...match,
+        equipeDomicile: withAbr(match.equipeDomicile as { id: string; [key: string]: unknown }),
+        equipeExterieur: withAbr(match.equipeExterieur as { id: string; [key: string]: unknown }),
+      };
+    };
 
     const data: TournoiData = {
       groupes: groupes.map((g) => {
         const teamIds = new Set(g.equipes.map((e) => e.id));
-        const groupMatchs = allMatchs.filter((m) => teamIds.has(m.equipeDomicileId)).map(withButs) as unknown as Match[];
+        const enrichedEquipes = g.equipes.map((e) => withAbr(e as { id: string; [key: string]: unknown }));
+        const groupMatchs = allMatchs
+          .filter((m) => teamIds.has(m.equipeDomicileId))
+          .map(enrichMatch) as unknown as Match[];
         return {
           ...g,
+          equipes: enrichedEquipes,
           matchs: groupMatchs,
-          standings: computeStandings(g.equipes, groupMatchs as unknown as Match[]),
+          standings: computeStandings(enrichedEquipes as unknown as import('@/types/tournoi').Equipe[], groupMatchs),
         };
       }),
-      matchsFinale: matchsFinale.map(withButs) as unknown as Match[],
+      matchsFinale: matchsFinale.map(enrichMatch) as unknown as Match[],
       lastUpdated: new Date().toISOString(),
     };
 

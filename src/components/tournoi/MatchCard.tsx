@@ -44,9 +44,10 @@ export default function MatchCard({ match }: { match: Match }) {
         <div className="flex-1 flex items-center gap-2 min-w-0">
           {/* Home */}
           <div className="flex-1 text-right min-w-0">
-            <span
-              className="font-mono text-[13px] font-bold tracking-wide"
+            <div
+              className="font-mono font-bold tracking-widest"
               style={{
+                fontSize: 16,
                 color: isDone
                   ? (homeLead ? '#FAF6EC' : 'rgba(250,246,236,0.35)')
                   : isLive
@@ -54,11 +55,11 @@ export default function MatchCard({ match }: { match: Match }) {
                   : 'rgba(250,246,236,0.6)',
               }}
             >
-              {match.equipeDomicile.abreviation ?? match.equipeDomicile.nom}
-            </span>
+              {match.equipeDomicile.abreviation ?? match.equipeDomicile.nom.slice(0, 3).toUpperCase()}
+            </div>
             <div
-              className="font-sans text-[10px] truncate"
-              style={{ color: 'rgba(166,173,185,0.35)' }}
+              className="font-sans text-[9px] truncate mt-0.5"
+              style={{ color: 'rgba(166,173,185,0.3)' }}
             >
               {match.equipeDomicile.nom}
             </div>
@@ -89,9 +90,10 @@ export default function MatchCard({ match }: { match: Match }) {
 
           {/* Away */}
           <div className="flex-1 min-w-0">
-            <span
-              className="font-mono text-[13px] font-bold tracking-wide"
+            <div
+              className="font-mono font-bold tracking-widest"
               style={{
+                fontSize: 16,
                 color: isDone
                   ? (awayLead ? '#FAF6EC' : 'rgba(250,246,236,0.35)')
                   : isLive
@@ -99,11 +101,11 @@ export default function MatchCard({ match }: { match: Match }) {
                   : 'rgba(250,246,236,0.6)',
               }}
             >
-              {match.equipeExterieur.abreviation ?? match.equipeExterieur.nom}
-            </span>
+              {match.equipeExterieur.abreviation ?? match.equipeExterieur.nom.slice(0, 3).toUpperCase()}
+            </div>
             <div
-              className="font-sans text-[10px] truncate"
-              style={{ color: 'rgba(166,173,185,0.35)' }}
+              className="font-sans text-[9px] truncate mt-0.5"
+              style={{ color: 'rgba(166,173,185,0.3)' }}
             >
               {match.equipeExterieur.nom}
             </div>
@@ -146,33 +148,6 @@ export default function MatchCard({ match }: { match: Match }) {
         </div>
       </div>
 
-      {/* Goals list */}
-      {match.buts && match.buts.length > 0 && (
-        <div
-          className="px-4 pb-3 pt-0 flex flex-col gap-0.5"
-          style={{ borderTop: '1px solid rgba(250,246,236,0.04)' }}
-        >
-          {match.buts.map((but) => {
-            const isHome = but.equipeId === match.equipeDomicileId;
-            const teamName = isHome ? match.equipeDomicile.nom : match.equipeExterieur.nom;
-            return (
-              <div
-                key={but.id}
-                className={`flex items-center gap-1.5 font-mono text-[10px] ${isHome ? 'justify-end flex-row-reverse' : ''}`}
-                style={{ color: 'rgba(166,173,185,0.45)' }}
-              >
-                <span style={{ color: 'rgba(250,246,236,0.5)' }}>⚽</span>
-                {but.minute && (
-                  <span className="tabular-nums" style={{ color: 'rgba(232,162,60,0.7)' }}>
-                    {but.minute}&apos;
-                  </span>
-                )}
-                <span>{but.buteur ? but.buteur : teamName}</span>
-              </div>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 }
