@@ -1,145 +1,124 @@
-// prisma/seed.ts
-// Lance avec : npx prisma db seed
+// prisma/seed.ts — PALLASTRADA CUP 2026
+// Lance avec : npm run db:seed
 
-import { PrismaClient, MatchPhase, MatchStatut } from '@prisma/client'
+import { PrismaClient, MatchPhase, MatchStatut } from '@prisma/client';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
+
+// Heure locale Berne (UTC+2) → ISO string
+const t = (time: string) => new Date(`2026-06-07T${time}:00+02:00`);
 
 async function main() {
-  console.log('🌱 Seeding database...')
+  console.log('🌱 Import PALLASTRADA CUP 2026...');
 
-  // Nettoyage
-  await prisma.match.deleteMany()
-  await prisma.equipe.deleteMany()
-  await prisma.groupe.deleteMany()
+  // ── Nettoyage ────────────────────────────────────────────────
+  await prisma.$executeRaw`DELETE FROM buts`;
+  await prisma.match.deleteMany();
+  await prisma.equipe.deleteMany();
+  await prisma.groupe.deleteMany();
 
-  // Création des groupes
-  const groupeA = await prisma.groupe.create({
-    data: { nom: 'Groupe A' }
-  })
+  // ── Groupes ──────────────────────────────────────────────────
+  const groupeA = await prisma.groupe.create({ data: { nom: 'Groupe A' } });
+  const groupeB = await prisma.groupe.create({ data: { nom: 'Groupe B' } });
 
-  const groupeB = await prisma.groupe.create({
-    data: { nom: 'Groupe B' }
-  })
+  // ── Équipes Groupe A ─────────────────────────────────────────
+  const PST = await prisma.equipe.create({ data: { nom: 'Pallastrada',     groupeId: groupeA.id } });
+  const MZA = await prisma.equipe.create({ data: { nom: 'Mazay',           groupeId: groupeA.id } });
+  const PNG = await prisma.equipe.create({ data: { nom: 'FC Pichangueros', groupeId: groupeA.id } });
 
-  // Équipes Groupe A
-  const [equipeA1, equipeA2, equipeA3, equipeA4] = await Promise.all([
-    prisma.equipe.create({ data: { nom: 'FC Berne', groupeId: groupeA.id } }),
-    prisma.equipe.create({ data: { nom: 'SC Zürich', groupeId: groupeA.id } }),
-    prisma.equipe.create({ data: { nom: 'Servette', groupeId: groupeA.id } }),
-    prisma.equipe.create({ data: { nom: 'FC Basel', groupeId: groupeA.id } }),
-  ])
+  // ── Équipes Groupe B ─────────────────────────────────────────
+  const BAO = await prisma.equipe.create({ data: { nom: 'Bärn Ost',        groupeId: groupeB.id } });
+  const KAR = await prisma.equipe.create({ data: { nom: 'Kariim',          groupeId: groupeB.id } });
+  const JPG = await prisma.equipe.create({ data: { nom: 'Joda Pichanguera',groupeId: groupeB.id } });
 
-  // Équipes Groupe B
-  const [equipeB1, equipeB2, equipeB3, equipeB4] = await Promise.all([
-    prisma.equipe.create({ data: { nom: 'FC Lausanne', groupeId: groupeB.id } }),
-    prisma.equipe.create({ data: { nom: 'FC Sion', groupeId: groupeB.id } }),
-    prisma.equipe.create({ data: { nom: 'FC Luzern', groupeId: groupeB.id } }),
-    prisma.equipe.create({ data: { nom: 'FC St. Gallen', groupeId: groupeB.id } }),
-  ])
+  // ── Matchs Groupe A (double round-robin) ─────────────────────
+  const matchsA = [
+    { dom: MZA, ext: PNG, heure: t('13:30'), ordre: 1 },
+    { dom: PST, ext: MZA, heure: t('14:00'), ordre: 2 },
+    { dom: PNG, ext: PST, heure: t('14:30'), ordre: 3 },
+    { dom: PNG, ext: MZA, heure: t('15:00'), ordre: 4 },
+    { dom: MZA, ext: PST, heure: t('15:30'), ordre: 5 },
+    { dom: PST, ext: PNG, heure: t('16:00'), ordre: 6 },
+  ];
 
-  // Matchs de groupe A (round-robin : chaque équipe joue contre les 3 autres)
-  const matchsGroupeA = [
-    { domicileId: equipeA1.id, exterieId: equipeA2.id, heure: new Date('2026-06-07T09:00:00'), terrain: 'Terrain 1', ordre: 1 },
-    { domicileId: equipeA3.id, exterieId: equipeA4.id, heure: new Date('2026-06-07T09:00:00'), terrain: 'Terrain 2', ordre: 2 },
-    { domicileId: equipeA1.id, exterieId: equipeA3.id, heure: new Date('2026-06-07T11:00:00'), terrain: 'Terrain 1', ordre: 3 },
-    { domicileId: equipeA2.id, exterieId: equipeA4.id, heure: new Date('2026-06-07T11:00:00'), terrain: 'Terrain 2', ordre: 4 },
-    { domicileId: equipeA1.id, exterieId: equipeA4.id, heure: new Date('2026-06-07T13:00:00'), terrain: 'Terrain 1', ordre: 5 },
-    { domicileId: equipeA2.id, exterieId: equipeA3.id, heure: new Date('2026-06-07T13:00:00'), terrain: 'Terrain 2', ordre: 6 },
-  ]
+  // ── Matchs Groupe B (double round-robin) ─────────────────────
+  const matchsB = [
+    { dom: KAR, ext: JPG, heure: t('13:30'), ordre: 1 },
+    { dom: BAO, ext: KAR, heure: t('14:00'), ordre: 2 },
+    { dom: JPG, ext: BAO, heure: t('14:30'), ordre: 3 },
+    { dom: JPG, ext: KAR, heure: t('15:00'), ordre: 4 },
+    { dom: KAR, ext: BAO, heure: t('15:30'), ordre: 5 },
+    { dom: BAO, ext: JPG, heure: t('16:00'), ordre: 6 },
+  ];
 
-  // Matchs de groupe B
-  const matchsGroupeB = [
-    { domicileId: equipeB1.id, exterieId: equipeB2.id, heure: new Date('2026-06-07T09:00:00'), terrain: 'Terrain 3', ordre: 7 },
-    { domicileId: equipeB3.id, exterieId: equipeB4.id, heure: new Date('2026-06-07T09:00:00'), terrain: 'Terrain 4', ordre: 8 },
-    { domicileId: equipeB1.id, exterieId: equipeB3.id, heure: new Date('2026-06-07T11:00:00'), terrain: 'Terrain 3', ordre: 9 },
-    { domicileId: equipeB2.id, exterieId: equipeB4.id, heure: new Date('2026-06-07T11:00:00'), terrain: 'Terrain 4', ordre: 10 },
-    { domicileId: equipeB1.id, exterieId: equipeB4.id, heure: new Date('2026-06-07T13:00:00'), terrain: 'Terrain 3', ordre: 11 },
-    { domicileId: equipeB2.id, exterieId: equipeB3.id, heure: new Date('2026-06-07T13:00:00'), terrain: 'Terrain 4', ordre: 12 },
-  ]
-
-  for (const m of matchsGroupeA) {
+  for (const m of [...matchsA, ...matchsB]) {
     await prisma.match.create({
       data: {
-        equipeDomicileId: m.domicileId,
-        equipeExterieId: m.exterieId,
-        heure: m.heure,
-        terrain: m.terrain,
-        ordre: m.ordre,
-        statut: MatchStatut.A_VENIR,
-        phase: MatchPhase.GROUPES,
-      }
-    })
+        equipeDomicileId: m.dom.id,
+        equipeExterieId:  m.ext.id,
+        heure:            m.heure,
+        statut:           MatchStatut.A_VENIR,
+        phase:            MatchPhase.GROUPES,
+        ordre:            m.ordre,
+      },
+    });
   }
 
-  for (const m of matchsGroupeB) {
-    await prisma.match.create({
-      data: {
-        equipeDomicileId: m.domicileId,
-        equipeExterieId: m.exterieId,
-        heure: m.heure,
-        terrain: m.terrain,
-        ordre: m.ordre,
-        statut: MatchStatut.A_VENIR,
-        phase: MatchPhase.GROUPES,
-      }
-    })
-  }
+  // ── Phase finale (placeholders — rempli après classement) ────
+  // Demi-finales 16:30 : 1er A vs 2e B  |  1er B vs 2e A
+  await prisma.match.create({
+    data: {
+      equipeDomicileId: PST.id, // sera mis à jour après groupes
+      equipeExterieId:  KAR.id,
+      heure:  t('16:30'),
+      statut: MatchStatut.A_VENIR,
+      phase:  MatchPhase.DEMI_FINALE,
+      ordre:  1,
+    },
+  });
+  await prisma.match.create({
+    data: {
+      equipeDomicileId: BAO.id,
+      equipeExterieId:  MZA.id,
+      heure:  t('16:30'),
+      statut: MatchStatut.A_VENIR,
+      phase:  MatchPhase.DEMI_FINALE,
+      ordre:  2,
+    },
+  });
 
-  // Matchs phase finale (placeholders — équipes à définir après groupes)
-  await prisma.match.createMany({
-    data: [
-      {
-        equipeDomicileId: equipeA1.id, // Placeholder : 1er Groupe A
-        equipeExterieId: equipeB2.id,  // Placeholder : 2e Groupe B
-        heure: new Date('2026-06-07T15:30:00'),
-        terrain: 'Terrain 1',
-        ordre: 13,
-        statut: MatchStatut.A_VENIR,
-        phase: MatchPhase.DEMI_FINALE,
-      },
-      {
-        equipeDomicileId: equipeB1.id, // Placeholder : 1er Groupe B
-        equipeExterieId: equipeA2.id,  // Placeholder : 2e Groupe A
-        heure: new Date('2026-06-07T15:30:00'),
-        terrain: 'Terrain 2',
-        ordre: 14,
-        statut: MatchStatut.A_VENIR,
-        phase: MatchPhase.DEMI_FINALE,
-      },
-      {
-        equipeDomicileId: equipeA3.id, // Placeholder
-        equipeExterieId: equipeB3.id,  // Placeholder
-        heure: new Date('2026-06-07T17:30:00'),
-        terrain: 'Terrain 2',
-        ordre: 15,
-        statut: MatchStatut.A_VENIR,
-        phase: MatchPhase.TROISIEME_PLACE,
-      },
-      {
-        equipeDomicileId: equipeA1.id, // Placeholder
-        equipeExterieId: equipeB1.id,  // Placeholder
-        heure: new Date('2026-06-07T18:00:00'),
-        terrain: 'Terrain 1',
-        ordre: 16,
-        statut: MatchStatut.A_VENIR,
-        phase: MatchPhase.FINALE,
-      },
-    ]
-  })
+  // 3e place 17:00
+  await prisma.match.create({
+    data: {
+      equipeDomicileId: PNG.id,
+      equipeExterieId:  JPG.id,
+      heure:  t('17:00'),
+      statut: MatchStatut.A_VENIR,
+      phase:  MatchPhase.TROISIEME_PLACE,
+      ordre:  1,
+    },
+  });
 
-  console.log('✅ Seed terminé avec succès!')
-  console.log(`   - 2 groupes créés`)
-  console.log(`   - 8 équipes créées`)
-  console.log(`   - ${matchsGroupeA.length + matchsGroupeB.length} matchs de groupes créés`)
-  console.log(`   - 4 matchs de phase finale créés (placeholders)`)
+  // Finale 17:30
+  await prisma.match.create({
+    data: {
+      equipeDomicileId: PST.id,
+      equipeExterieId:  BAO.id,
+      heure:  t('17:30'),
+      statut: MatchStatut.A_VENIR,
+      phase:  MatchPhase.FINALE,
+      ordre:  1,
+    },
+  });
+
+  console.log('✅ Import terminé !');
+  console.log('   Groupe A : Pallastrada · Mazay · FC Pichangueros');
+  console.log('   Groupe B : Bärn Ost · Kariim · Joda Pichanguera');
+  console.log('   12 matchs de groupe + 4 matchs phase finale');
+  console.log('   ⚠️  Les équipes des matchs finales sont des placeholders.');
+  console.log('      Utilisez "Générer les demi-finales" dans l\'admin une fois les groupes terminés.');
 }
 
 main()
-  .catch((e) => {
-    console.error(e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })
+  .catch((e) => { console.error(e); process.exit(1); })
+  .finally(() => prisma.$disconnect());
