@@ -43,9 +43,18 @@ export default function GroupTable({ groupe }: { groupe: GroupeWithData }) {
                   {t('table_team').toUpperCase()}
                 </span>
               </th>
-              {(['table_played', 'table_won', 'table_drawn', 'table_lost', 'table_gd', 'table_points'] as const).map((k) => (
-                <th key={k} className="px-2 py-3 text-center">
-                  <span className="font-mono text-[10px] tracking-[0.16em]" style={{ color: k === 'table_points' ? 'rgba(232,162,60,0.7)' : 'rgba(166,173,185,0.35)' }}>
+              {(['table_played', 'table_won', 'table_drawn', 'table_lost', 'table_gf', 'table_ga', 'table_gd', 'table_points'] as const).map((k) => (
+                <th key={k} className="px-1 sm:px-2 py-3 text-center">
+                  <span
+                    className="font-mono text-[10px] tracking-[0.16em]"
+                    style={{
+                      color: k === 'table_points'
+                        ? 'rgba(232,162,60,0.7)'
+                        : (k === 'table_gf' || k === 'table_ga')
+                        ? 'rgba(166,173,185,0.5)'
+                        : 'rgba(166,173,185,0.35)',
+                    }}
+                  >
                     {t(k).toUpperCase()}
                   </span>
                 </th>
@@ -94,17 +103,19 @@ export default function GroupTable({ groupe }: { groupe: GroupeWithData }) {
                       )}
                     </div>
                   </td>
-                  <td className="px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(166,173,185,0.5)' }}>{row.joues}</td>
-                  <td className="px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(166,173,185,0.5)' }}>{row.gagnes}</td>
-                  <td className="px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(166,173,185,0.5)' }}>{row.nuls}</td>
-                  <td className="px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(166,173,185,0.5)' }}>{row.perdus}</td>
+                  <td className="px-1 sm:px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(166,173,185,0.5)' }}>{row.joues}</td>
+                  <td className="px-1 sm:px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(166,173,185,0.5)' }}>{row.gagnes}</td>
+                  <td className="px-1 sm:px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(166,173,185,0.5)' }}>{row.nuls}</td>
+                  <td className="px-1 sm:px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(166,173,185,0.5)' }}>{row.perdus}</td>
+                  <td className="px-1 sm:px-2 py-3.5 text-center font-mono text-[12px] tabular-nums font-semibold" style={{ color: 'rgba(90,138,46,0.85)' }}>{row.buts_pour}</td>
+                  <td className="px-1 sm:px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(194,74,44,0.7)' }}>{row.buts_contre}</td>
                   <td
-                    className="px-2 py-3.5 text-center font-mono text-[12px] tabular-nums font-bold"
+                    className="px-1 sm:px-2 py-3.5 text-center font-mono text-[12px] tabular-nums font-bold"
                     style={{ color: row.diff > 0 ? '#5A8A2E' : row.diff < 0 ? '#C24A2C' : 'rgba(166,173,185,0.4)' }}
                   >
                     {row.diff > 0 ? `+${row.diff}` : row.diff}
                   </td>
-                  <td className="px-2 py-3.5 pr-4 text-center">
+                  <td className="px-1 sm:px-2 py-3.5 pr-4 text-center">
                     <span className="font-display text-[24px]" style={{ color: '#E8A23C' }}>{row.points}</span>
                   </td>
                 </tr>
