@@ -96,14 +96,22 @@ export default function MatchCard({ match }: { match: Match }) {
 
         {/* Terrain + Badge */}
         <div className="shrink-0 text-right flex flex-col items-end gap-1">
-          {match.terrain && (
-            <span
-              className="font-mono text-[9px] tracking-[0.12em] px-2 py-0.5 flex items-center gap-1"
-              style={{ background: 'rgba(90,138,46,0.15)', color: 'rgba(90,138,46,0.9)', border: '1px solid rgba(90,138,46,0.3)' }}
-            >
-              <span>⚑</span> {match.terrain.toUpperCase()}
-            </span>
-          )}
+          {match.terrain && (() => {
+            const num = match.terrain.match(/\d+/)?.[0] ?? '1';
+            const isT1 = num === '1';
+            return (
+              <span
+                className="font-mono text-[9px] tracking-[0.12em] px-2 py-0.5 flex items-center gap-1 whitespace-nowrap"
+                style={{
+                  background: isT1 ? 'rgba(230,57,70,0.12)' : 'rgba(90,138,46,0.12)',
+                  color:      isT1 ? 'rgba(230,57,70,0.9)'  : 'rgba(90,138,46,0.9)',
+                  border:     `1px solid ${isT1 ? 'rgba(230,57,70,0.3)' : 'rgba(90,138,46,0.3)'}`,
+                }}
+              >
+                ⚑ {t('terrain')} {num}
+              </span>
+            );
+          })()}
           <div className="hidden sm:block">
             {isDone && (
               <span

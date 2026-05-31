@@ -98,6 +98,7 @@
     "live_badge": "LIVE",
     "upcoming_badge": "UPCOMING",
     "finished_badge": "FINISHED",
+    "terrain": "Pitch",
     "group_stage": "Group stage",
     "knockout_stage": "Knockout stage",
     "semifinals": "Semi-finals",
