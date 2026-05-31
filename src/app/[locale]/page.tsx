@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { prisma } from '@/lib/prisma';
 
 export default async function HomePage({
   params,
@@ -45,14 +46,28 @@ export default async function HomePage({
     },
   ];
 
-  const tickerItems = [
-    'TOURNOI 7 JUIN 2026 — BERNE',
-    'FOOTBALL · MATCH DU WEEK-END : FC PALLASTRADA 3–1 SC BERNE',
-    'VÉLO · SORTIE GRAVEL DIMANCHE 9H00',
-    'HIKING · RANDO MENSUELLE LE 15 MAI',
+  // Fetch teams for ticker
+  const groupes = await prisma.groupe.findMany({
+    include: { equipes: { orderBy: { nom: 'asc' } } },
+    orderBy: { nom: 'asc' },
+  }).catch(() => []);
+
+  // Build ticker: fixed infos + teams from DB
+  const baseItems = [
+    'TOURNOI · 7 JUIN 2026 · BERNE',
+    'FOOTBALL · VÉLO · RANDONNÉE',
     'INSCRIPTION OUVERTE · ADHÉSION 2026',
   ];
-  const ticker = [...tickerItems, ...tickerItems].join('   ·   ');
+  const teamItems: string[] = [];
+  for (const g of groupes) {
+    teamItems.push(g.nom.toUpperCase());
+    for (const e of g.equipes) teamItems.push(e.nom.toUpperCase());
+  }
+  const allItems = teamItems.length > 0
+    ? [...baseItems, ...teamItems]
+    : [...baseItems, 'PALLASTRADA', 'MAZAY', 'FC PICHANGUEROS', 'BÄRN OST', 'KARIIM', 'JODA PICHANGUERA'];
+
+  const ticker = [...allItems, ...allItems].join('   ·   ');
 
   return (
     <>
@@ -97,13 +112,31 @@ export default async function HomePage({
       </section>
 
       {/* ─── Ticker ─── */}
-      <div className="bg-navy overflow-hidden" style={{ height: 44 }}>
-        <div className="flex items-center h-full">
-          <div className="animate-ticker whitespace-nowrap font-mono text-[11px] tracking-[0.14em] text-paper opacity-70">
-            {ticker}
-            &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
-            {ticker}
-          </div>
+      <div className="bg-navy overflow-hidden relative" style={{ height: 44 }}>
+        {/* Fade edges */}
+        <div className="absolute left-0 top-0 bottom-0 z-10 pointer-events-none"
+          style={{ width: 60, background: 'linear-gradient(to right, #0d1f35, transparent)' }} />
+        <div className="absolute right-0 top-0 bottom-0 z-10 pointer-events-none"
+          style={{ width: 60, background: 'linear-gradient(to left, #0d1f35, transparent)' }} />
+
+        <div className="flex items-center h-full animate-ticker" style={{ width: 'max-content' }}>
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex items-center h-full" aria-hidden={copy === 1}>
+              {allItems.map((item, i) => {
+                const isGroup = groupes.some(g => g.nom.toUpperCase() === item);
+                return (
+                  <span key={i} className="flex items-center">
+                    <span className="mx-5 w-1 h-1 rounded-full shrink-0"
+                      style={{ background: isGroup ? '#E8A23C' : 'rgba(250,246,236,0.25)' }} />
+                    <span className="font-mono text-[11px] tracking-[0.18em] whitespace-nowrap"
+                      style={{ color: isGroup ? 'rgba(232,162,60,0.9)' : 'rgba(250,246,236,0.6)', fontWeight: isGroup ? 700 : 400 }}>
+                      {item}
+                    </span>
+                  </span>
+                );
+              })}
+            </div>
+          ))}
         </div>
       </div>
 
