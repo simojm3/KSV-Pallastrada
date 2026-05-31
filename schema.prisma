@@ -1,7 +1,9 @@
-// prisma/schema.prisma
+// schema.prisma (racine — utilisé par défaut par prisma generate / prisma db push)
+// Copie exacte de prisma/schema.prisma
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -13,6 +15,7 @@ datasource db {
 model Equipe {
   id               String   @id @default(cuid())
   nom              String
+  abreviation      String?  // ex: PST, MZA, KAR...
   logo             String?
   groupeId         String?
   groupe           Groupe?  @relation(fields: [groupeId], references: [id])
@@ -45,11 +48,31 @@ model Match {
   phase            MatchPhase  @default(GROUPES)
   heure            DateTime?
   terrain          String?
-  ordre            Int?        // Pour trier l'affichage
+  ordre            Int?
+  buts             But[]
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
 
   @@map("matchs")
+}
+
+model But {
+  id        String   @id @default(uuid())
+  match     Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  matchId   String
+  equipeId  String
+  minute    Int?
+  buteur    String?
+  createdAt DateTime @default(now())
+
+  @@map("buts")
+}
+
+model Config {
+  id          String  @id @default("main")
+  liveVisible Boolean @default(false)
+
+  @@map("config")
 }
 
 enum MatchStatut {
