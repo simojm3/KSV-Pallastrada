@@ -9,6 +9,7 @@ export const contactSchema = z.object({
 
 export const equipeSchema = z.object({
   nom: z.string().min(1).max(100),
+  abreviation: z.string().max(4).toUpperCase().nullable().optional(),
   logo: z.string().url().nullable().optional(),
   groupeId: z.string().nullable().optional(),
 });

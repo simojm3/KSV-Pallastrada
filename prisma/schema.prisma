@@ -13,6 +13,7 @@ datasource db {
 model Equipe {
   id               String   @id @default(cuid())
   nom              String
+  abreviation      String?  // ex: PST, MZA, KAR...
   logo             String?
   groupeId         String?
   groupe           Groupe?  @relation(fields: [groupeId], references: [id])

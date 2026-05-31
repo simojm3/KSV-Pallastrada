@@ -6,6 +6,10 @@ import type { GroupeWithData } from '@/types/tournoi';
 export default function GroupTable({ groupe }: { groupe: GroupeWithData }) {
   const t = useTranslations('tournoi');
 
+  const groupMatches = groupe.matchs.filter(m => m.phase === 'GROUPES');
+  const allGroupMatchesFinished =
+    groupMatches.length > 0 && groupMatches.every(m => m.statut === 'TERMINE');
+
   return (
     <div>
       {/* Group header */}
@@ -17,12 +21,14 @@ export default function GroupTable({ groupe }: { groupe: GroupeWithData }) {
           {groupe.nom.slice(-1)}
         </div>
         <h3 className="font-display text-paper" style={{ fontSize: 28 }}>{groupe.nom.toUpperCase()}</h3>
-        <span
-          className="ml-auto font-mono text-[10px] tracking-[0.16em]"
-          style={{ color: 'rgba(166,173,185,0.4)' }}
-        >
-          Q = QUALIFIÉ
-        </span>
+        {allGroupMatchesFinished && (
+          <span
+            className="ml-auto font-mono text-[10px] tracking-[0.16em]"
+            style={{ color: 'rgba(166,173,185,0.4)' }}
+          >
+            Q = QUALIFIÉ
+          </span>
+        )}
       </div>
 
       <div className="overflow-x-auto" style={{ background: '#0A1829', border: '1px solid rgba(250,246,236,0.07)' }}>
@@ -48,7 +54,7 @@ export default function GroupTable({ groupe }: { groupe: GroupeWithData }) {
           </thead>
           <tbody>
             {groupe.standings.map((row, idx) => {
-              const qualified = idx < 2;
+              const qualified = allGroupMatchesFinished && idx < 2;
               return (
                 <tr
                   key={row.equipe.id}
@@ -67,12 +73,26 @@ export default function GroupTable({ groupe }: { groupe: GroupeWithData }) {
                     </span>
                   </td>
                   <td className="px-2 py-3.5">
-                    <span className="font-sans text-[14px] font-semibold" style={{ color: qualified ? '#FAF6EC' : 'rgba(250,246,236,0.55)' }}>
-                      {row.equipe.nom}
-                    </span>
-                    {qualified && (
-                      <span className="ml-2 font-mono text-[9px] tracking-[0.16em]" style={{ color: 'rgba(232,162,60,0.5)' }}>Q</span>
-                    )}
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="font-sans text-[13px] font-semibold truncate" style={{ color: qualified ? '#FAF6EC' : 'rgba(250,246,236,0.55)' }}>
+                        {row.equipe.nom}
+                      </span>
+                      {row.equipe.abreviation && (
+                        <span
+                          className="shrink-0 font-mono text-[9px] tracking-[0.12em] px-1.5 py-0.5"
+                          style={{
+                            background: 'rgba(166,173,185,0.08)',
+                            border: '1px solid rgba(166,173,185,0.18)',
+                            color: 'rgba(166,173,185,0.55)',
+                          }}
+                        >
+                          {row.equipe.abreviation}
+                        </span>
+                      )}
+                      {qualified && (
+                        <span className="shrink-0 font-mono text-[9px] tracking-[0.16em]" style={{ color: 'rgba(232,162,60,0.5)' }}>Q</span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(166,173,185,0.5)' }}>{row.joues}</td>
                   <td className="px-2 py-3.5 text-center font-mono text-[12px] tabular-nums" style={{ color: 'rgba(166,173,185,0.5)' }}>{row.gagnes}</td>
@@ -94,12 +114,14 @@ export default function GroupTable({ groupe }: { groupe: GroupeWithData }) {
         </table>
       </div>
 
-      <div className="flex items-center gap-2 mt-2 px-1">
-        <span className="w-3 h-0.5" style={{ background: '#E8A23C' }} />
-        <span className="font-mono text-[10px] tracking-[0.12em]" style={{ color: 'rgba(166,173,185,0.3)' }}>
-          2 PREMIERS QUALIFIÉS
-        </span>
-      </div>
+      {allGroupMatchesFinished && (
+        <div className="flex items-center gap-2 mt-2 px-1">
+          <span className="w-3 h-0.5" style={{ background: '#E8A23C' }} />
+          <span className="font-mono text-[10px] tracking-[0.12em]" style={{ color: 'rgba(166,173,185,0.3)' }}>
+            2 PREMIERS QUALIFIÉS
+          </span>
+        </div>
+      )}
     </div>
   );
 }

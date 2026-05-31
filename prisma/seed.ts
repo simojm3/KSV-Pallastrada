@@ -22,14 +22,14 @@ async function main() {
   const groupeB = await prisma.groupe.create({ data: { nom: 'Groupe B' } });
 
   // ── Équipes Groupe A ─────────────────────────────────────────
-  const PST = await prisma.equipe.create({ data: { nom: 'Pallastrada',     groupeId: groupeA.id } });
-  const MZA = await prisma.equipe.create({ data: { nom: 'Mazay',           groupeId: groupeA.id } });
-  const PNG = await prisma.equipe.create({ data: { nom: 'FC Pichangueros', groupeId: groupeA.id } });
+  const PST = await prisma.equipe.create({ data: { nom: 'Pallastrada',      abreviation: 'PST', groupeId: groupeA.id } });
+  const MZA = await prisma.equipe.create({ data: { nom: 'Mazay',            abreviation: 'MZA', groupeId: groupeA.id } });
+  const PNG = await prisma.equipe.create({ data: { nom: 'FC Pichangueros',  abreviation: 'PNG', groupeId: groupeA.id } });
 
   // ── Équipes Groupe B ─────────────────────────────────────────
-  const BAO = await prisma.equipe.create({ data: { nom: 'Bärn Ost',        groupeId: groupeB.id } });
-  const KAR = await prisma.equipe.create({ data: { nom: 'Kariim',          groupeId: groupeB.id } });
-  const JPG = await prisma.equipe.create({ data: { nom: 'Joda Pichanguera',groupeId: groupeB.id } });
+  const BAO = await prisma.equipe.create({ data: { nom: 'Bärn Ost',         abreviation: 'BÄO', groupeId: groupeB.id } });
+  const KAR = await prisma.equipe.create({ data: { nom: 'Kariim',           abreviation: 'KAR', groupeId: groupeB.id } });
+  const JPG = await prisma.equipe.create({ data: { nom: 'Joda Pichanguera', abreviation: 'JPG', groupeId: groupeB.id } });
 
   // ── Matchs Groupe A (double round-robin) — Terrain 1 ─────────
   const matchsA = [

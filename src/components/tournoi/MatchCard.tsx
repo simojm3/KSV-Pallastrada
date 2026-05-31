@@ -41,23 +41,31 @@ export default function MatchCard({ match }: { match: Match }) {
         </div>
 
         {/* Teams + score */}
-        <div className="flex-1 flex items-center gap-3 min-w-0">
+        <div className="flex-1 flex items-center gap-2 min-w-0">
           {/* Home */}
-          <span
-            className="flex-1 text-right font-sans text-[14px] font-semibold truncate"
-            style={{
-              color: isDone
-                ? (homeLead ? '#FAF6EC' : 'rgba(250,246,236,0.35)')
-                : isLive
-                ? '#FAF6EC'
-                : 'rgba(250,246,236,0.6)',
-            }}
-          >
-            {match.equipeDomicile.nom}
-          </span>
+          <div className="flex-1 text-right min-w-0">
+            <span
+              className="font-mono text-[13px] font-bold tracking-wide"
+              style={{
+                color: isDone
+                  ? (homeLead ? '#FAF6EC' : 'rgba(250,246,236,0.35)')
+                  : isLive
+                  ? '#FAF6EC'
+                  : 'rgba(250,246,236,0.6)',
+              }}
+            >
+              {match.equipeDomicile.abreviation ?? match.equipeDomicile.nom}
+            </span>
+            <div
+              className="font-sans text-[10px] truncate"
+              style={{ color: 'rgba(166,173,185,0.35)' }}
+            >
+              {match.equipeDomicile.nom}
+            </div>
+          </div>
 
           {/* Score */}
-          <div className="shrink-0 min-w-[56px] sm:min-w-[72px] text-center">
+          <div className="shrink-0 min-w-[52px] sm:min-w-[64px] text-center">
             {hasScore ? (
               <span
                 className="font-display tabular-nums"
@@ -80,18 +88,26 @@ export default function MatchCard({ match }: { match: Match }) {
           </div>
 
           {/* Away */}
-          <span
-            className="flex-1 font-sans text-[14px] font-semibold truncate"
-            style={{
-              color: isDone
-                ? (awayLead ? '#FAF6EC' : 'rgba(250,246,236,0.35)')
-                : isLive
-                ? '#FAF6EC'
-                : 'rgba(250,246,236,0.6)',
-            }}
-          >
-            {match.equipeExterieur.nom}
-          </span>
+          <div className="flex-1 min-w-0">
+            <span
+              className="font-mono text-[13px] font-bold tracking-wide"
+              style={{
+                color: isDone
+                  ? (awayLead ? '#FAF6EC' : 'rgba(250,246,236,0.35)')
+                  : isLive
+                  ? '#FAF6EC'
+                  : 'rgba(250,246,236,0.6)',
+              }}
+            >
+              {match.equipeExterieur.abreviation ?? match.equipeExterieur.nom}
+            </span>
+            <div
+              className="font-sans text-[10px] truncate"
+              style={{ color: 'rgba(166,173,185,0.35)' }}
+            >
+              {match.equipeExterieur.nom}
+            </div>
+          </div>
         </div>
 
         {/* Terrain + Badge */}

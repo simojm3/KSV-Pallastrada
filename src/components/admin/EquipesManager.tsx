@@ -10,6 +10,7 @@ interface Groupe {
 interface Equipe {
   id: string;
   nom: string;
+  abreviation: string | null;
   logo: string | null;
   groupeId: string | null;
   groupe: Groupe | null;
@@ -154,12 +155,19 @@ function GroupSection({
             >
               <div className="flex items-center gap-3">
                 <div
-                  className="w-8 h-8 flex items-center justify-center font-display text-[16px]"
-                  style={{ background: 'rgba(250,246,236,0.06)', color: 'rgba(250,246,236,0.4)' }}
+                  className="w-8 h-8 flex items-center justify-center font-mono text-[11px] font-bold"
+                  style={{ background: 'rgba(250,246,236,0.06)', color: 'rgba(250,246,236,0.5)' }}
                 >
-                  {eq.nom.charAt(0).toUpperCase()}
+                  {eq.abreviation ?? eq.nom.slice(0, 3).toUpperCase()}
                 </div>
-                <span className="font-sans font-medium text-paper">{eq.nom}</span>
+                <div>
+                  <span className="font-sans font-medium text-paper">{eq.nom}</span>
+                  {eq.abreviation && (
+                    <span className="ml-2 font-mono text-[10px]" style={{ color: 'rgba(166,173,185,0.4)' }}>
+                      {eq.abreviation}
+                    </span>
+                  )}
+                </div>
               </div>
               <div className="flex gap-2">
                 <button
@@ -197,6 +205,7 @@ function EquipeForm({
   onCancel: () => void;
 }) {
   const [nom, setNom] = useState(initial?.nom ?? '');
+  const [abreviation, setAbreviation] = useState(initial?.abreviation ?? '');
   const [groupeId, setGroupeId] = useState(initial?.groupeId ?? '');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -207,16 +216,21 @@ function EquipeForm({
     setSaving(true);
     setError('');
     try {
+      const payload = {
+        nom: nom.trim(),
+        abreviation: abreviation.trim().toUpperCase() || null,
+        groupeId: groupeId || null,
+      };
       const res = initial
         ? await fetch(`/api/tournoi/equipes/${initial.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nom: nom.trim(), groupeId: groupeId || null }),
+            body: JSON.stringify(payload),
           })
         : await fetch('/api/tournoi/equipes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nom: nom.trim(), groupeId: groupeId || null }),
+            body: JSON.stringify(payload),
           });
       if (!res.ok) throw new Error();
       await onSave();
@@ -247,6 +261,19 @@ function EquipeForm({
             value={nom}
             onChange={(e) => setNom(e.target.value)}
             placeholder="FC Example"
+            style={inputStyle}
+          />
+        </div>
+        <div>
+          <label className="block font-mono text-[10px] tracking-[0.18em] mb-1.5" style={{ color: 'rgba(166,173,185,0.5)' }}>
+            ABRÉVIATION <span style={{ color: 'rgba(166,173,185,0.3)' }}>(3–4 lettres)</span>
+          </label>
+          <input
+            type="text"
+            maxLength={4}
+            value={abreviation}
+            onChange={(e) => setAbreviation(e.target.value.toUpperCase())}
+            placeholder="EX: PST"
             style={inputStyle}
           />
         </div>
