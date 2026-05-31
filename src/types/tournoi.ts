@@ -4,7 +4,7 @@ export type MatchPhase = 'GROUPES' | 'DEMI_FINALE' | 'TROISIEME_PLACE' | 'FINALE
 export interface Equipe {
   id: string;
   nom: string;
-  abreviation: string | null;
+  abreviation?: string | null;
   logo: string | null;
   groupeId: string | null;
   groupe?: { id: string; nom: string } | null;
