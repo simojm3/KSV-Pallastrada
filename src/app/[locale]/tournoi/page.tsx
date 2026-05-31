@@ -87,7 +87,7 @@ export default async function TournoiPage({ params }: { params: { locale: string
               {t('title').toUpperCase()}
             </h1>
             <p className="font-sans mt-3" style={{ fontSize: 15, color: 'rgba(166,173,185,0.7)' }}>
-              2 groupes · 8 équipes · Phase finale · Résultats en direct
+              2 groupes · 6 équipes · Phase finale · Résultats en direct
             </p>
           </div>
         </div>

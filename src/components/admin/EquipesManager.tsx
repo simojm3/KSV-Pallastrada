@@ -64,7 +64,7 @@ export default function EquipesManager() {
         <div>
           <h1 className="font-display text-paper" style={{ fontSize: 40 }}>TEAMS</h1>
           <p className="font-mono text-[11px] mt-1" style={{ color: 'rgba(166,173,185,0.4)' }}>
-            {equipes.length} / 8 teams registered
+            {equipes.length} / 6 teams registered
           </p>
         </div>
         {mode === 'idle' && (
