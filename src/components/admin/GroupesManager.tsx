@@ -86,9 +86,9 @@ export default function GroupesManager() {
   const totalEquipes = groupes.reduce((s, g) => s + g.equipes.length, 0) + equipesSansGroupe.length;
 
   return (
-    <div className="p-8 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="font-display text-paper" style={{ fontSize: 40 }}>GROUPS</h1>
+    <div className="px-3 py-4 sm:px-6 sm:py-6 lg:p-8 max-w-4xl">
+      <div className="mb-6">
+        <h1 className="font-display text-paper" style={{ fontSize: 'clamp(24px, 6vw, 40px)' }}>GROUPS</h1>
         <p className="font-mono text-[11px] mt-1" style={{ color: 'rgba(166,173,185,0.4)' }}>
           {totalEquipes} teams — {groupes.length} group{groupes.length !== 1 ? 's' : ''}
         </p>
@@ -240,7 +240,7 @@ function EquipeRow({
 
   return (
     <div
-      className="px-5 py-3.5 flex items-center justify-between gap-3"
+      className="px-3 sm:px-5 py-3 sm:py-3.5 flex items-center justify-between gap-3"
       style={{ borderBottom: isLast ? 'none' : '1px solid rgba(250,246,236,0.05)' }}
     >
       <div className="flex items-center gap-3">

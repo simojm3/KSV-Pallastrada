@@ -60,10 +60,10 @@ export default function EquipesManager() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="p-8 max-w-4xl">
-      <div className="flex items-center justify-between mb-8">
+    <div className="px-3 py-4 sm:px-6 sm:py-6 lg:p-8 max-w-4xl">
+      <div className="flex items-center justify-between mb-6 gap-3">
         <div>
-          <h1 className="font-display text-paper" style={{ fontSize: 40 }}>TEAMS</h1>
+          <h1 className="font-display text-paper" style={{ fontSize: 'clamp(24px, 6vw, 40px)' }}>TEAMS</h1>
           <p className="font-mono text-[11px] mt-1" style={{ color: 'rgba(166,173,185,0.4)' }}>
             {equipes.length} / 6 teams registered
           </p>
@@ -71,7 +71,7 @@ export default function EquipesManager() {
         {mode === 'idle' && (
           <button
             onClick={() => setMode('add')}
-            className="font-mono text-[12px] font-bold tracking-[0.12em] px-5 py-2.5 bg-sun text-ink transition-opacity hover:opacity-85"
+            className="shrink-0 font-mono text-[11px] sm:text-[12px] font-bold tracking-[0.12em] px-3 sm:px-5 py-2.5 bg-sun text-ink transition-opacity hover:opacity-85"
           >
             + ADD
           </button>
@@ -147,7 +147,7 @@ function GroupSection({
           {equipes.map((eq, i) => (
             <div
               key={eq.id}
-              className="flex items-center justify-between px-5 py-4 transition-colors"
+              className="flex items-center justify-between px-3 sm:px-5 py-3 sm:py-4 transition-colors"
               style={{
                 background: editing === eq.id ? 'rgba(232,162,60,0.08)' : i % 2 === 0 ? '#0A1829' : 'rgba(250,246,236,0.02)',
                 borderBottom: i < equipes.length - 1 ? '1px solid rgba(250,246,236,0.05)' : 'none',
@@ -169,20 +169,21 @@ function GroupSection({
                   )}
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-1.5 sm:gap-2">
                 <button
                   onClick={() => onEdit(eq)}
-                  className="font-mono text-[11px] tracking-[0.08em] px-3 py-1.5 transition-colors"
+                  className="font-mono text-[11px] tracking-[0.08em] px-2 sm:px-3 py-1.5 transition-colors"
                   style={{ border: '1px solid rgba(250,246,236,0.12)', color: 'rgba(250,246,236,0.45)' }}
                 >
-                  EDIT
+                  <span className="hidden sm:inline">EDIT</span>
+                  <span className="sm:hidden">✏</span>
                 </button>
                 <button
                   onClick={() => onDelete(eq.id)}
-                  className="font-mono text-[11px] tracking-[0.08em] px-3 py-1.5 transition-colors"
+                  className="font-mono text-[11px] tracking-[0.08em] px-2 sm:px-3 py-1.5 transition-colors"
                   style={{ border: '1px solid rgba(194,74,44,0.2)', color: 'rgba(194,74,44,0.5)' }}
                 >
-                  DELETE
+                  ✕
                 </button>
               </div>
             </div>
